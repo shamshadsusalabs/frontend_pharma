@@ -1,0 +1,44 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="card-header">
+      <img src="/logo.webp" alt="Pharma Logo" class="logo" />
+      <h2>Welcome Back!</h2>
+      <p>Please login to continue</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <mat-icon matPrefix>mail</mat-icon>
+        <input matInput type="email" formControlName="email" />
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Enter a valid email
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Password must be at least 8 characters
+        </mat-error>
+        <mat-icon matSuffix (click)="togglePasswordVisibility()" style="cursor: pointer;">
+          {{ hidePassword ? 'visibility_off' : 'visibility' }}
+        </mat-icon>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid" class="login-button">
+        Login
+      </button>
+    </form>
+
+    <p class="register-link">Don't have an account? <a routerLink="registor">Register here</a></p>
+  </mat-card>
+</div>

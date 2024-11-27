@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { StockAlertComponent } from './stock-alert.component';
+
+describe('StockAlertComponent', () => {
+  let component: StockAlertComponent;
+  let fixture: ComponentFixture<StockAlertComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [StockAlertComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(StockAlertComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

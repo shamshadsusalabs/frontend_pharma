@@ -1,0 +1,155 @@
+<div class="container p-4 bg-gray-100 min-h-screen font-mono">
+  <form [formGroup]="billingForm" (ngSubmit)="onSubmit()">
+    <!-- Top Header Section (Unchanged) -->
+    <mat-card class="bg-gray-300 p-4 mb-4">
+      <div class="flex justify-between">
+        <div>
+          <p>Patient: <span class="font-semibold">
+              <input matInput formControlName="patientName" id="patientName" (keydown)="moveFocus($event, 'doctorName')" />
+            </span>
+          </p>
+
+          <p>Doctor Name: <span class="font-semibold">
+              <input matInput formControlName="doctorName" id="doctorName" (keydown)="moveFocus($event, 'AdharCardNumber')" />
+            </span>
+          </p>
+
+          <p>Aadhar Card Number: <span class="font-semibold">
+              <input matInput formControlName="AdharCardNumber" id="AdharCardNumber" (keydown)="moveFocus($event, 'ContactNumber')"
+               />
+            </span>
+          </p>
+        </div>
+        <div class="text-right">
+          <p>Contact Number: <span class="font-semibold">
+              <input matInput formControlName="ContactNumber" id="ContactNumber" (keydown)="moveFocus($event, 'date')" />
+            </span>
+          </p>
+          <p>Date: <span class="font-semibold">
+              <input matInput type="date"  formControlName="date" id="date" (keydown)="moveFocus($event, 'address')" />
+            </span>
+          </p>
+          <p>Address: <span class="font-semibold">
+              <input matInput formControlName="address" id="address" (keydown)="moveFocus($event, 'product')" />
+            </span>
+          </p>
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Table Section -->
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="drugName">
+          <th mat-header-cell *matHeaderCellDef class="narrow-column">PRODUCT</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
+            <input matInput [id]="'drugName-' + i" [formControl]="row.get('drugName')" placeholder="drugName"
+            (keydown)="moveFocusInTable($event, i, 'drugName')" />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="drugCode">
+          <th mat-header-cell *matHeaderCellDef class="narrow-column">DrugCode</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
+            <input matInput [id]="'drugCode-' + i" [formControl]="row.get('drugCode')" placeholder="drugCode"
+            (keydown)="moveFocusInTable($event, i, 'drugCode')"/>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef class="narrow-column">Quantity</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
+            <input
+              matInput
+              [id]="'quantity-' + i"
+              type="number"
+              [formControl]="row.get('quantity')"
+              placeholder="Quantity"
+              (input)="onQuantityOrMrpChange(row)"
+              (keydown)="moveFocusInTable($event, i, 'quantity')"
+            />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mrp">
+          <th mat-header-cell *matHeaderCellDef class="narrow-column">M.R.P./S</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
+            <input
+              matInput
+              [id]="'mrp-' + i"
+              type="number"
+              [formControl]="row.get('mrp')"
+              placeholder="M.R.P./S"
+              (input)="onQuantityOrMrpChange(row)"
+              (keydown)="moveFocusInTable($event, i, 'mrp')"
+            />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef class="narrow-column">AMOUNT</th>
+          <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
+            <input
+              matInput
+              [id]="'amount-' + i"
+              type="number"
+              [formControl]="row.get('amount')"
+              placeholder="Amount"
+
+            />
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Bottom Information and Summary Section -->
+    <mat-card class="bg-gray-100 p-4 rounded-md shadow mb-4 mt-60">
+      <div class="flex justify-between items-start">
+        <!-- Discount -->
+        <div class="text-sm">
+          <label class="block font-semibold mb-1" for="discount">Discount:</label>
+          <input
+            id="discount"
+            type="number"
+            class="border rounded-md w-full px-2 py-1"
+            placeholder="Enter discount"
+            formControlName="discount"
+            (change)="onFieldChange()"
+          />
+        </div>
+        <!-- GST -->
+        <div class="text-sm">
+          <label class="block font-semibold mb-1" for="gst">GST (%):</label>
+          <input
+            id="gst"
+            type="number"
+            class="border rounded-md w-full px-2 py-1"
+            placeholder="Enter GST percentage"
+            formControlName="gst"
+            (change)="onFieldChange()"
+          />
+        </div>
+        <!-- Total Amount -->
+        <div class="text-sm">
+          <label class="block font-semibold mb-1" for="totalAmount">Total Amount:</label>
+          <input
+            id="totalAmount"
+            type="number"
+            class="border rounded-md w-full px-2 py-1"
+            placeholder="Enter total amount"
+            formControlName="totalAmount"
+
+          />
+        </div>
+      </div>
+    </mat-card>
+
+    <!-- Bottom Action Buttons -->
+    <div class="flex justify-around mt-4">
+      <button mat-raised-button class="w-32" type="submit">SAVE</button>
+    </div>
+  </form>
+</div>

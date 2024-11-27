@@ -1,0 +1,86 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  <p>A quick data overview of the inventory.</p>
+
+  <!-- Summary Cards Section -->
+  <div class="summary-cards">
+    <div class="card" style="border-color: #5cd18a;">
+      <mat-icon class="card-icon" style="color: #5cd18a;">shield</mat-icon>
+      <div class="card-content">
+        <p>Good</p>
+        <span>Inventory Status</span>
+      </div>
+      <button mat-button class="detail-btn">View Detailed Report &raquo;</button>
+    </div>
+
+    <div class="card" style="border-color: #f0c22b;">
+      <mat-icon class="card-icon" style="color: #f0c22b;">attach_money</mat-icon>
+      <div class="card-content">
+        <p>Rs. 8,55,875</p>
+        <span>Revenue : Jan 2022</span>
+      </div>
+      <button mat-button class="detail-btn">View Detailed Report &raquo;</button>
+    </div>
+
+    <div class="card" style="border-color: #62b9f3;">
+      <mat-icon class="card-icon" style="color: #62b9f3;">medical_services</mat-icon>
+      <div class="card-content">
+        <p>298</p>
+        <span>Medicines Available</span>
+      </div>
+      <button mat-button class="detail-btn">Visit Inventory &raquo;</button>
+    </div>
+
+    <div class="card" style="border-color: #f55a5a;">
+      <mat-icon class="card-icon" style="color: #f55a5a;">warning</mat-icon>
+      <div class="card-content">
+        <p>01</p>
+        <span>Medicine Shortage</span>
+      </div>
+      <button mat-button class="detail-btn">Resolve Now &raquo;</button>
+    </div>
+  </div>
+
+  <!-- Data Panels Section -->
+  <div class="data-panels">
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Inventory</mat-card-title>
+        <button mat-button class="config-btn">Go to Configuration &raquo;</button>
+      </mat-card-header>
+      <mat-card-content>
+        <p>298 Total no of Medicines, 24 Medicine Groups</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Quick Report</mat-card-title>
+        <button mat-button class="config-btn">January 2022 &raquo;</button>
+      </mat-card-header>
+      <mat-card-content>
+        <p>70,856 Qty of Medicines Sold, 5,288 Invoices Generated</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>My Pharmacy</mat-card-title>
+        <button mat-button class="config-btn">Go to User Management &raquo;</button>
+      </mat-card-header>
+      <mat-card-content>
+        <p>04 Total no of Suppliers, 05 Total no of Users</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="panel">
+      <mat-card-header>
+        <mat-card-title>Customers</mat-card-title>
+        <button mat-button class="config-btn">Go to Customers Page &raquo;</button>
+      </mat-card-header>
+      <mat-card-content>
+        <p>845 Total no of Customers, Adalimumab Frequently bought Item</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

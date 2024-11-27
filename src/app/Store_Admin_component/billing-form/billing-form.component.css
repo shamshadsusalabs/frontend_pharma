@@ -1,0 +1,299 @@
+/* Container styles */
+.container {
+  padding: 1rem;
+  background-color: #f7fafc;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Material card styles for the top header */
+mat-card {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+
+/* Styles for the header card */
+.mat-card {
+  background-color: #e2e8f0;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mat-card p {
+  margin: 0;
+}
+
+.mat-card .font-semibold {
+  font-weight: 600;
+}
+
+/* Product table styles */
+mat-table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+mat-header-cell,
+mat-cell {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.mat-header-row {
+  background-color: #edf2f7;
+  font-weight: 600;
+}
+
+.mat-cell {
+  font-size: 0.875rem;
+  color: #4a5568;
+}
+
+/* Text in the bottom section */
+.mat-card .text-sm p {
+  margin: 0.25rem 0;
+}
+
+/* Action buttons at the bottom */
+button {
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+button.mat-raised-button {
+  transition: all 0.3s ease;
+}
+
+button.mat-raised-button:hover {
+  opacity: 0.9;
+}
+
+button.w-32 {
+  width: 8rem;
+}
+
+/* Bottom action buttons - Sale, Purchase, Save, Delete */
+button.mat-raised-button[color="primary"] {
+  background-color: #38a169;
+  color: white;
+}
+
+button.mat-raised-button[color="accent"] {
+  background-color: #4299e1;
+  color: white;
+}
+
+button.mat-raised-button[color="warn"] {
+  background-color: #e53e3e;
+  color: white;
+}
+
+button.mat-raised-button:not([color]) {
+  background-color: #d69e2e;
+  color: white;
+}
+
+/* Bottom section with value and discount details */
+.mat-card.bg-gray-100 {
+  background-color: #f7fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Text for small info in bottom section */
+.mat-card .text-right {
+  text-align: right;
+}
+
+/* Flexbox utilities */
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-around {
+  justify-content: space-around;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+/* Container for the mat-table */
+.billing-table {
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: gray; /* Light background color */
+}
+
+/* Header cells styling */
+mat-header-cell {
+  background-color: #2d3748; /* Dark background color for headers */
+  color: #ffffff; /* White text color for headers */
+  font-weight: bold;
+  text-align: center;
+  padding: 12px 8px;
+  font-size: 0.875rem;
+}
+
+/* Regular cells styling */
+mat-cell {
+  color: #4a5568; /* Dark grey color for text */
+  padding: 10px 8px;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+/* Row Styling */
+mat-header-row, mat-row {
+  display: flex;
+}
+
+/* Border between rows */
+mat-row {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+mat-header-row:last-child, mat-row:last-child {
+  border-bottom: none; /* Remove border for the last row */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  mat-header-cell, mat-cell {
+    font-size: 0.75rem; /* Smaller font size for smaller screens */
+    padding: 8px 4px;
+  }
+}
+.table-container {
+  margin: 20px;
+  height: 900px; /* Set a fixed height for the table container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.button-container {
+  margin: 20px;
+  text-align: center;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 4px 8px; /* Increased padding for better readability */
+}
+
+.mat-cell input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 4px; /* Slightly larger padding */
+  font-size: 10px; /* Consistent font size */
+}
+
+.narrow-column {
+  width: 7%;
+  white-space: nowrap;
+}
+
+.narrow-column input {
+  font-size: 10px;
+  padding: 4px; /* Increased padding for better usability */
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  text-align: center;
+  background-color: #f1f1f1;
+  color: #3f51b5;
+}
+
+.mat-cell input:focus {
+  border: 1px solid #3f51b5;
+  background-color: #f0f0f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .narrow-column {
+    width: 15%;  /* Increase column width on small screens */
+  }
+}
+.table-container {
+  margin: 20px;
+  height: 200px; /* Set a fixed height for the table container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.button-container {
+  margin: 20px;
+  text-align: center;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 4px 8px; /* Increased padding for better readability */
+}
+
+.mat-cell input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 4px; /* Slightly larger padding */
+  font-size: 10px; /* Consistent font size */
+}
+
+.narrow-column {
+  width: 7%;
+  white-space: nowrap;
+}
+
+.narrow-column input {
+  font-size: 10px;
+  padding: 8px; /* Increased padding for better usability */
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  text-align: center;
+  background-color: #f1f1f1;
+  color: #3f51b5;
+}
+
+.mat-cell input:focus {
+  border: 1px solid #3f51b5;
+  background-color: #f0f0f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .narrow-column {
+    width: 15%;  /* Increase column width on small screens */
+  }
+}

@@ -1,0 +1,57 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" class="sidenav" [opened]="isScreenLarge()">
+    <img src="/logo.webp" alt="Pharma Logo" class="logo" />
+    <mat-nav-list class="s">
+      <a mat-list-item class="nav-item" routerLink="/home">
+        <mat-icon class="nav-icon">home</mat-icon>
+        <span class="nav-text">Home</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="/profile">
+        <mat-icon class="nav-icon">account_circle</mat-icon>
+        <span class="nav-text">Profile</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="store-view-drugs">
+        <mat-icon class="nav-icon">store</mat-icon>
+        <span class="nav-text">Store</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="billing-Form">
+        <mat-icon class="nav-icon">receipt_long</mat-icon>
+        <span class="nav-text">Billing</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="store-Upload-drugs">
+        <mat-icon class="nav-icon">upload</mat-icon> <!-- Changed "Uplod" to "upload" -->
+        <span class="nav-text">Upload Drugs</span>
+      </a>
+
+      <a mat-list-item class="nav-item" routerLink="/settings">
+        <mat-icon class="nav-icon">settings</mat-icon>
+        <span class="nav-text">Settings</span>
+      </a>
+      <a mat-list-item class="nav-item" routerLink="/logout">
+        <mat-icon class="nav-icon">logout</mat-icon>
+        <span class="nav-text">Logout</span>
+      </a>
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="upper-navbar">
+      <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-toggle" *ngIf="isScreenSmall()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="toolbar-title">Dashboard Title</span>
+      <span class="spacer"></span>
+
+      <mat-icon class="notification-icon uppericons" routerLink="notification">notifications</mat-icon>
+      <mat-icon class="profile-icon  uppericons" (click)="openProfile()">account_circle</mat-icon>
+
+      <button mat-button routerLink="/settings">Settings</button>
+      <button mat-button routerLink="/logout">Logout</button>
+    </mat-toolbar>
+
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

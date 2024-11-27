@@ -1,0 +1,56 @@
+.table-container {
+  width: 100%;
+  margin: 20px auto;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 15px; /* Adjusts the space between the items */
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: nowrap; /* Prevents wrapping of elements */
+}
+
+.patient-name-filter {
+  flex: 1;
+  min-width: 150px; /* Ensures the Patient Name Filter is wide enough */
+}
+
+.date-filter {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.date-filter mat-form-field {
+  flex: 1;
+  min-width: 160px;
+}
+
+button {
+  min-width: 100px;
+  height: 40px;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.mat-paginator {
+  margin-top: 20px;
+}

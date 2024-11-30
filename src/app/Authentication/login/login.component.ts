@@ -66,7 +66,12 @@ export class LoginComponent {
             this.router.navigate(['/Store-Admin-dashboard']);
           } else if (profileType === 'Brand') {
             this.router.navigate(['/Brand-Admin-dashboard']);
-          } else {
+          }
+
+          else if (profileType === 'Distributor') {
+            this.router.navigate(['/Distributor-Admin-dashboard']);
+          }
+          else {
             this.toastr.error('Unknown profile type. Please contact support.', 'Error');
           }
         },

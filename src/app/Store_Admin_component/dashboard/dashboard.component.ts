@@ -5,9 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatMenuModule } from '@angular/material/menu';
+import { RegisterService } from '../../_Service/register.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,29 +23,34 @@ import { MatInputModule } from '@angular/material/input';
     MatListModule,
     CommonModule,
     RouterOutlet,
-    MatCard,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
     MatCardModule,
     MatListModule,
     MatInputModule,
-    RouterLink
+    RouterLink,FormsModule,  MatMenuModule,  // Add MatMenuModule here
+    MatIconModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
 openProfile() {
-throw new Error('Method not implemented.');
+
 }
 openNotifications() {
-throw new Error('Method not implemented.');
+
 }
   isSmallScreen: boolean = false;
 
-  constructor() {
+  constructor(
+    private registerService:RegisterService,
+    private router: Router
+  ) {
+
     this.updateScreenSize();
+
   }
 
   @HostListener('window:resize', ['$event'])
@@ -61,4 +69,23 @@ throw new Error('Method not implemented.');
   isScreenLarge() {
     return !this.isSmallScreen;
   }
+
+
+  onLogout() {
+    // Call the logout function from the service
+    this.registerService.logout().subscribe(
+      response => {
+        console.log('Logged out successfully', response);
+        // Remove the token and user data from localStorage
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+        // Redirect to the login page after logout
+        this.router.navigate(['']);  // Assuming your login route is '/login'
+      },
+      error => {
+        console.error('Error during logout', error);
+      }
+    );
+  }
+
 }

@@ -43,16 +43,36 @@
         <ng-container matColumnDef="drugName">
           <th mat-header-cell *matHeaderCellDef class="narrow-column">PRODUCT</th>
           <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
-            <input matInput [id]="'drugName-' + i" [formControl]="row.get('drugName')" placeholder="drugName"
-            (keydown)="moveFocusInTable($event, i, 'drugName')" />
+            <input autocomplete="off" matInput [id]="'drugName-' + i" [formControl]="row.get('drugName')" placeholder="drugName"
+              (keydown)="moveFocusInTable($event, i, 'drugName')" (input)="onDrugNameInput($event, i)"
+              (focus)="onDrugFocus(i)" />
+              <ul *ngIf="filteredDrugs.length > 0" style="margin-top: 0.5rem; background-color: #fff; box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); border-radius: 4px; max-height: 12rem; overflow-y: auto; width: 100%; z-index: 10; padding: 0; list-style: none;">
+                <li *ngFor="let drug of filteredDrugs; let i = index"   (click)="onDrugSelect(drug)" style="cursor: pointer; padding: 0.75rem 1rem; font-size: 0.9rem; color: #333; background-color: #fff; transition: background-color 0.2s ease; border-bottom: 1px solid #e0e0e0;">
+                  {{ drug.drugName }} - {{ drug.drugCode }}
+                </li>
+              </ul>
+
+
           </td>
         </ng-container>
+
+
 
         <ng-container matColumnDef="drugCode">
           <th mat-header-cell *matHeaderCellDef class="narrow-column">DrugCode</th>
           <td mat-cell *matCellDef="let row; let i = index" class="narrow-column">
-            <input matInput [id]="'drugCode-' + i" [formControl]="row.get('drugCode')" placeholder="drugCode"
-            (keydown)="moveFocusInTable($event, i, 'drugCode')"/>
+            <input autocomplete="off" matInput [id]="'drugCode-' + i" [formControl]="row.get('drugCode')" placeholder="drugCode"
+            (keydown)="moveFocusInTable($event, i, 'drugCode')"
+            (input)="onDrugNameInputcode($event, i)"
+              (focus)="onDrugFocuscode(i)"
+
+            />
+
+            <ul *ngIf=" filteredDrugsCode.length > 0" style="margin-top: 0.5rem; background-color: #fff; box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); border-radius: 4px; max-height: 12rem; overflow-y: auto; width: 100%; z-index: 10; padding: 0; list-style: none;">
+              <li *ngFor="let drug of  filteredDrugsCode; let i = index"   (click)="onDrugSelectcode(drug)" style="cursor: pointer; padding: 0.75rem 1rem; font-size: 0.9rem; color: #333; background-color: #fff; transition: background-color 0.2s ease; border-bottom: 1px solid #e0e0e0;">
+                {{ drug.drugName }} - {{ drug.drugCode }}
+              </li>
+            </ul>
           </td>
         </ng-container>
 

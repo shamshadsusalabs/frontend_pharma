@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { StoreService } from '../../_Service/store.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -10,26 +10,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { RouterLink, } from '@angular/router';
-
+import { RouterLink } from '@angular/router';
 @Component({
-  selector: 'app-store-view-drugs',
+  selector: 'app-low-stock',
   standalone: true,
-  imports: [
-    MatTableModule,
+  imports: [   MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
     MatIconModule,
-    CommonModule,
-    RouterLink
-
-  ],
-  templateUrl: './store-view-drugs.component.html',
-  styleUrls: ['./store-view-drugs.component.css']
+    CommonModule,RouterLink],
+  templateUrl: './low-stock.component.html',
+  styleUrl: './low-stock.component.css'
 })
-export class StoreViewDrugsComponent implements OnInit {
+export class LowStockComponent {
+
   displayedColumns: string[] = ['drugName', 'drugCode', 'manufacturer','price', 'stock', 'discount' ,'expiryDate'];
   dataSource = new MatTableDataSource<any>();
 
@@ -39,15 +35,26 @@ export class StoreViewDrugsComponent implements OnInit {
   constructor(private storeService: StoreService) {}
 
   ngOnInit(): void {
-    const user = JSON.parse(localStorage.getItem('user') || '{}'); // Get user object from local storage
-    const userId = user._id; // Extract the _id field
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user._id;
 
     if (userId) {
-      this.storeService.getStoresByUserId(userId).subscribe({
+      this.storeService.getLowStockDrugs(userId).subscribe({
         next: (response: any) => {
-          console.log(response);
-          const allDrugs = response.flatMap((store: any) => store.distributorSupplied); // Flatten distributorSupplied arrays
-          this.dataSource.data = allDrugs;
+          console.log('Response:', response);  // Inspect the full response
+
+          // Log each item in the response to verify the structure
+          response.forEach((store: any) => {
+            console.log('Store:', store);
+            if (store.distributorSupplied) {
+              console.log('Distributor Supplied:', store.distributorSupplied);
+            } else {
+              console.log('No distributorSupplied field in this store:', store);
+            }
+          });
+
+          // Assuming drugs are directly in the response, assign them directly
+          this.dataSource.data = response;  // Assuming each item in `response` is a drug object
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         },
@@ -60,8 +67,11 @@ export class StoreViewDrugsComponent implements OnInit {
     }
   }
 
+
+
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }
+

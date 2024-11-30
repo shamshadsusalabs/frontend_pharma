@@ -67,4 +67,14 @@ export class RegisterService {
 
     return this.http.post(`${this.apiUrl}login`, data, { headers });
   }
+
+  logout(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    // Backend pe logout API call
+    return this.http.post(`${this.apiUrl}logout`, {}, { headers });
+  }
+
 }

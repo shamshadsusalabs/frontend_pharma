@@ -44,6 +44,24 @@ export const routes: Routes = [
         path: 'invoice',
         loadComponent: () => import('./Store_Admin_component/invoice/invoice.component').then(c => c.InvoiceComponent)
       },
+      {
+        path: 'files',
+        loadComponent: () => import('./Store_Admin_component/files/files.component').then(c => c.FilesComponent)
+      },
+      {
+        path: 'purchase-files',
+        loadComponent: () => import('./Store_Admin_component/purchase-file/purchase-file.component').then(c => c.PurchaseFileComponent)
+      },
+      {
+        path: 'low-stock',
+        loadComponent: () => import('./Store_Admin_component/low-stock/low-stock.component').then(c => c.LowStockComponent)
+      },
+      {
+        path: 'expiry-stock',
+        loadComponent: () => import('./Store_Admin_component/expiry-drug/expiry-drug.component').then(c => c.ExpiryDrugComponent)
+      },
+
+
 
     ]
   },
@@ -68,6 +86,27 @@ export const routes: Routes = [
       {
         path: 'brand-view-drugs',
         loadComponent: () => import('./Brand_Admin_component/brand-view-drugs/brand-view-drugs.component').then(c => c.BrandViewDrugsComponent)
+      },
+
+
+    ]
+  },
+
+
+
+  {
+    path: 'Distributor-Admin-dashboard',
+    canActivate: [authGuard] ,
+    loadComponent: () => import('./Distributer_Admin_component/distributer-dashbord/distributer-dashbord.component').then(c => c.DistributerDashbordComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'main-content-distributor',
+        pathMatch: 'full'
+      },
+      {
+        path: 'main-content-distributor',
+        loadComponent: () => import('./Distributer_Admin_component/distributer-dashbord/distributer-dashbord.component').then(c => c.DistributerDashbordComponent)
       },
 
 

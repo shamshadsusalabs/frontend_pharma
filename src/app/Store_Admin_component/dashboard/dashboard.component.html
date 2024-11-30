@@ -18,21 +18,40 @@
         <mat-icon class="nav-icon">receipt_long</mat-icon>
         <span class="nav-text">Billing</span>
       </a>
-      <a mat-list-item class="nav-item" routerLink="store-Upload-drugs">
-        <mat-icon class="nav-icon">upload</mat-icon> <!-- Changed "Uplod" to "upload" -->
-        <span class="nav-text">Upload Drugs</span>
+      <a mat-list-item class="nav-item" routerLink="invoice">
+        <mat-icon class="nav-icon">receipt_long</mat-icon>
+        <span class="nav-text">Invoice</span>
       </a>
 
+      <!-- File Menu -->
+      <a mat-list-item class="nav-item" [matMenuTriggerFor]="fileMenu">
+        <mat-icon class="nav-icon">insert_drive_file</mat-icon>
+        <span class="nav-text">Files</span>
+      </a>
+      <mat-menu #fileMenu="matMenu">
+        <button mat-menu-item routerLink="files">
+          <mat-icon>insert_drive_file</mat-icon>
+          <span class="nav-text">Sales_Invoice File</span>
+        </button>
+        <button mat-menu-item routerLink="purchase-files">
+          <mat-icon>insert_drive_file</mat-icon>
+          <span class="nav-text">Purchase_Invoice File</span>
+        </button>
+      </mat-menu>
+
+      <a mat-list-item class="nav-item" routerLink="store-Upload-drugs">
+        <mat-icon class="nav-icon">upload</mat-icon>
+        <span class="nav-text">Upload Drugs</span>
+      </a>
       <a mat-list-item class="nav-item" routerLink="/settings">
         <mat-icon class="nav-icon">settings</mat-icon>
         <span class="nav-text">Settings</span>
       </a>
       <a mat-list-item class="nav-item" routerLink="/logout">
         <mat-icon class="nav-icon">logout</mat-icon>
-        <span class="nav-text">Logout</span>
+        <span class="nav-text"  (click)="onLogout()">Logout</span>
       </a>
     </mat-nav-list>
-
   </mat-sidenav>
 
   <mat-sidenav-content>
@@ -44,10 +63,10 @@
       <span class="spacer"></span>
 
       <mat-icon class="notification-icon uppericons" routerLink="notification">notifications</mat-icon>
-      <mat-icon class="profile-icon  uppericons" (click)="openProfile()">account_circle</mat-icon>
+      <mat-icon class="profile-icon uppericons" (click)="openProfile()">account_circle</mat-icon>
 
       <button mat-button routerLink="/settings">Settings</button>
-      <button mat-button routerLink="/logout">Logout</button>
+      <button mat-button (click)="onLogout()">Logout</button>
     </mat-toolbar>
 
     <div class="content">

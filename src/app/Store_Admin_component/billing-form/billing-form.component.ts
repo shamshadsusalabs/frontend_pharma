@@ -10,6 +10,7 @@ import { StoreBillingService } from '../../_Service/store-billing.service';
 import { StoreService } from '../../_Service/store.service';
 import { ToastrService } from 'ngx-toastr';
 import { FileService } from '../../_Service/file.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-billing-form',
@@ -22,7 +23,7 @@ import { FileService } from '../../_Service/file.service';
     MatInputModule,
     MatGridListModule,
     ReactiveFormsModule,
-    FormsModule,
+    FormsModule,CommonModule
   ],
   templateUrl: './billing-form.component.html',
   styleUrls: ['./billing-form.component.css']
@@ -37,12 +38,14 @@ export class BillingFormComponent implements OnInit {
     'amount',
   ];
   dataSource!: MatTableDataSource<any>;
-
+  filteredDrugs: any[] = [];
+  filteredDrugsCode: any[] = [];
+  selectedDrug: any = null;
   constructor(private fb: FormBuilder,
     private storeBillingService : StoreBillingService,
     private  storeService: StoreService,
     private toastr: ToastrService ,
-    private fileService:FileService// Toastr service
+    private fileService:FileService,// Toastr service
 
   ) {}
 
@@ -77,6 +80,153 @@ export class BillingFormComponent implements OnInit {
   get rows(): FormArray {
     return this.billingForm.get('rows') as FormArray;
   }
+
+
+
+ onDrugNameInput(event: any, i: number): void {
+    const searchCriteria = event.target.value.trim();
+    console.log("Search Criteria:", searchCriteria); // Log the search criteria entered by the user
+
+    if (searchCriteria.length >= 3) {
+      this.storeService.getDrugs([searchCriteria]).subscribe((response: any) => {
+        console.log("API Response:", response); // Log the full API response
+
+        // Ensure that the response.drugs is assigned to filteredDrugs
+        this.filteredDrugs = response.drugs || [];  // Fallback to an empty array if drugs is not found
+
+        console.log("Filtered Drugs Array:", this.filteredDrugs); // Log the filteredDrugs after assignment
+      });
+    } else {
+      this.filteredDrugs = [];
+    }
+  }
+
+  currentRowIndex: number | null = null;
+  onDrugFocus(index: number): void {
+    this.currentRowIndex = index;
+    console.log('Focused Row Index Set:', this.currentRowIndex);
+  }
+
+  onDrugSelect(drug: any): void {
+    const index = this.currentRowIndex; // Use the focused row index
+    if (index === null) {
+      console.error('No row focused for drug selection!');
+      return;
+    }
+
+    console.log('Function Triggered: onDrugSelect');
+    console.log('Selected Drug:', drug);
+    console.log('Row Index:', index);
+
+    // Check for duplicate drug
+    const isDuplicate = this.rows.controls.some((row, i) => {
+      console.log(`Checking Row ${i}:`, row.value);
+      return row.get('drugCode')?.value === drug.drugCode && i !== index;
+    });
+
+    console.log('Is Duplicate:', isDuplicate);
+
+    if (isDuplicate) {
+      console.log('Duplicate Detected. Aborting Update.');
+      this.toastr.error('This drug is already selected in another row!', 'Duplicate Entry');
+      return;
+    }
+
+    // Correctly update the row at the tracked index
+    const row = this.rows.at(index); // Ensure the index is correct
+    if (row) {
+      console.log('Row Before Update:', row.value);
+
+      row.patchValue({
+        drugName: drug.drugName,
+        drugCode: drug.drugCode,
+      });
+
+      console.log('Row After Update:', row.value);
+    } else {
+      console.error('No row found at the provided index!');
+    }
+
+    // Clear filtered drugs
+    this.filteredDrugs = [];
+    console.log('Filtered Drugs Cleared.');
+  }
+
+
+
+
+  onDrugNameInputcode(event: any, i: number): void {
+    const searchCriteria = event.target.value.trim();
+    console.log("Search Criteria:", searchCriteria); // Log the search criteria entered by the user
+
+    if (searchCriteria.length >= 3) {
+      this.storeService.getDrugs([searchCriteria]).subscribe((response: any) => {
+        console.log("API Response:", response); // Log the full API response
+
+        // Ensure that the response.drugs is assigned to filteredDrugs
+        this.filteredDrugsCode = response.drugs || [];  // Fallback to an empty array if drugs is not found
+
+        console.log("Filtered Drugs Array:", this. filteredDrugsCode); // Log the filteredDrugs after assignment
+      });
+    } else {
+      this.filteredDrugsCode = [];
+    }
+  }
+
+  currentRowIndexcode: number | null = null;
+  onDrugFocuscode(index: number): void {
+    this.currentRowIndexcode = index;
+    console.log('Focused Row Index Set:', this.currentRowIndexcode);
+  }
+
+  onDrugSelectcode(drug: any): void {
+    const index = this.currentRowIndexcode; // Use the focused row index
+    if (index === null) {
+      console.error('No row focused for drug selection!');
+      return;
+    }
+
+    console.log('Function Triggered: onDrugSelect');
+    console.log('Selected Drug:', drug);
+    console.log('Row Index:', index);
+
+    // Check for duplicate drug
+    const isDuplicate = this.rows.controls.some((row, i) => {
+      console.log(`Checking Row ${i}:`, row.value);
+      return row.get('drugCode')?.value === drug.drugCode && i !== index;
+    });
+
+    console.log('Is Duplicate:', isDuplicate);
+
+    if (isDuplicate) {
+      console.log('Duplicate Detected. Aborting Update.');
+      this.toastr.error('This drug is already selected in another row!', 'Duplicate Entry');
+      return;
+    }
+
+    // Correctly update the row at the tracked index
+    const row = this.rows.at(index); // Ensure the index is correct
+    if (row) {
+      console.log('Row Before Update:', row.value);
+
+      row.patchValue({
+        drugName: drug.drugName,
+        drugCode: drug.drugCode,
+      });
+
+      console.log('Row After Update:', row.value);
+    } else {
+      console.error('No row found at the provided index!');
+    }
+
+    // Clear filtered drugs
+    this.filteredDrugsCode = [];
+    console.log('Filtered Drugs Cleared.');
+  }
+
+
+
+
 
   createRow(): FormGroup {
     return this.fb.group({
@@ -163,16 +313,16 @@ export class BillingFormComponent implements OnInit {
             (updateResponse) => {
            this.  FileSaver()
               this.toastr.success('Stock updated successfully!', 'Success'); // Success message
-              // this.billingForm.reset(); // Reset form after success
+               this.billingForm.reset(); // Reset form after success
             },
             (updateError) => {
-              console.error('Error updating stock:', updateError);
+
               this.toastr.error('Error updating stock.', 'Something went wrong'); // Error message
             }
           );
         },
         (billingError) => {
-          console.error('Error creating billing:', billingError);
+
           this.toastr.error('Error creating billing.', 'Something went wrong'); // Error message
         }
       );
@@ -206,9 +356,7 @@ export class BillingFormComponent implements OnInit {
           row.drugName && row.drugCode && row.quantity > 0 && row.mrp > 0
       );
 
-      // Log the user details and filtered rows
-      console.log('User Details:', userDetails);
-      console.log('Filtered Rows:', filteredRows);
+
 
       // Prepare the complete form data with user details and filtered rows
       const completeFormData = {
@@ -217,12 +365,12 @@ export class BillingFormComponent implements OnInit {
         userDetails: userDetails // Send the user details along with the form data
       };
 
-      console.log('Complete Form Data:', completeFormData);
+
 
       // Call the service to send the form data to the backend
       this.fileService.createBilling(completeFormData).subscribe(
         (response) => {
-          console.log('Billing entry created successfully:', response);
+
           // Handle success logic (e.g., show a success message)
         },
         (error) => {

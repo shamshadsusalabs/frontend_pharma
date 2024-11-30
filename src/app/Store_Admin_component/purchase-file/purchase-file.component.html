@@ -1,0 +1,41 @@
+<div class="table-container">
+  <!-- Search Input -->
+  <mat-form-field appearance="outline">
+    <mat-label>Search</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Search for files">
+  </mat-form-field>
+
+  <!-- Table for displaying purchase files -->
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <!-- File Name Column -->
+    <ng-container matColumnDef="fileName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>File Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+    </ng-container>
+
+    <!-- File URL Column -->
+
+
+    <!-- Date Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+    </ng-container>
+    <ng-container matColumnDef="fileUrl">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>File URL</th>
+      <td mat-cell *matCellDef="let element">
+        <a [href]="element.fileUrl" target="_blank">Download</a>
+      </td>
+    </ng-container>
+
+
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <!-- Row Definition -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Pagination Controls -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+</div>

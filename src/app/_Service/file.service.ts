@@ -38,18 +38,50 @@ export interface BillingData {
   userDetails: UserDetails; // Include user details in the billing data
 }
 
+// file.model.ts
+export interface FileData {
+  filePath: string;
+  fileName: string;
+  userId: string; // Or ObjectId based on your schema
+  fileUrl: string;
+  patientName: string;
+  AdharCardNumber: string;
+  date: Date;
+  ContactNumber: string;
+}
 
+export interface PurchaseFile {
+  userId: string;
+  fileUrl: string;
+  fileName: string;
+  date: string; // You can adjust this type based on the date format in your backend
+}
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
 
-  private apiUrl = 'http://localhost:3000/api/v1/File/create';  // Replace with your backend URL
+  private apiUrl = 'http://localhost:3000/api/v1/File';  // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
 
   // Method to create a billing entry, using the updated BillingData interface
   createBilling(formData: BillingData): Observable<BillingData> {
-    return this.http.post<BillingData>(this.apiUrl, formData);
+    return this.http.post<BillingData>(`${this.apiUrl}/create`, formData);
   }
+
+ // Get files by userId
+ getFilesByUserId(userId: string): Observable<{ message: string, invoices: FileData[] }> {
+  return this.http.get<{ message: string, invoices: FileData[] }>(`${this.apiUrl}/invoices/${userId}`);
+}
+
+private apiUrl1 = 'http://localhost:3000/api/v1/PurchaseFile/purchase-files'; // Backend API URL
+
+
+
+// Function to get purchase files for a specific userId
+getPurchaseFilesByUserId(userId: string): Observable<PurchaseFile[]> {
+  return this.http.get<PurchaseFile[]>(`${this.apiUrl1}/${userId}`);
+}
+
 }

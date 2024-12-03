@@ -1,0 +1,59 @@
+<div class="container mat-elevation-z8">
+  <h2 class="form-title">Distributor Form</h2>
+  <form [formGroup]="distributorForm" (ngSubmit)="onSubmit()">
+    <!-- Shop Name -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Shop Name</mat-label>
+      <input matInput formControlName="shopName" placeholder="Enter your shop name" />
+      <mat-error *ngIf="distributorForm.get('shopName')?.hasError('required')">
+        Shop Name is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Discount -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Discount (%)</mat-label>
+      <input matInput type="number" formControlName="discount" placeholder="Enter discount rate" />
+      <mat-error *ngIf="distributorForm.get('discount')?.hasError('required')">
+        Discount is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Delivery Type 1 -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Primary Delivery Type</mat-label>
+      <mat-select formControlName="deliveryType1">
+        <mat-option value="self-pickup">Self Pickup</mat-option>
+        <mat-option value="home-delivery">Home Delivery</mat-option>
+        <mat-option value="courier">Courier</mat-option>
+      </mat-select>
+      <mat-error *ngIf="distributorForm.get('deliveryType1')?.hasError('required')">
+        Primary Delivery Type is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Delivery Time (in days)</mat-label>
+      <input matInput type="number" formControlName="deliveryTime" placeholder="Enter delivery time" />
+      <mat-error *ngIf="distributorForm.get('deliveryTime')?.hasError('required')">
+        Delivery Time is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Address -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Address</mat-label>
+      <textarea matInput formControlName="address" placeholder="Enter your address"></textarea>
+      <mat-error *ngIf="distributorForm.get('address')?.hasError('required')">
+        Address is required
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Submit Button -->
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!distributorForm.valid">
+        Submit
+      </button>
+    </div>
+  </form>
+</div>

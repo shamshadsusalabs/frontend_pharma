@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-upload-drugs',
   standalone: true,
@@ -29,7 +29,7 @@ export class UploadDrugsComponent {
 
   constructor(
     private csvUploadService: StoreService,
-    private toastr: ToastrService // Inject ToastrService
+    private toastr: ToastrService
   ) {}
 
   onFileSelected(event: Event): void {
@@ -41,15 +41,27 @@ export class UploadDrugsComponent {
 
   onUpload(): void {
     if (this.selectedFile) {
+      // Show SweetAlert loader before starting upload
+      Swal.fire({
+        title: 'Uploading file...',
+        text: 'Please wait while the file is being uploaded.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
       this.csvUploadService.uploadXlsx(this.selectedFile).subscribe(
         (response) => {
           this.showSuccessMessage('File uploaded successfully!');
-          this.resetFileInput(); // Clear file input
+          Swal.close(); // Close SweetAlert loader
+          this.resetFileInput();
         },
         (error) => {
           const errorMessage = this.parseError(error);
           this.showErrorMessage(errorMessage);
-          this.resetFileInput(); // Clear file input
+          Swal.close(); // Close SweetAlert loader
+          this.resetFileInput();
         }
       );
     }

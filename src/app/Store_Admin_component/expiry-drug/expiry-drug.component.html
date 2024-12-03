@@ -12,6 +12,10 @@
       <button mat-button class="expiry-button" routerLink="../expiry-stock"  >Expiry</button>
     </div>
   </div>
+
+  <div *ngIf="dataSource.data.length === 0" class="no-data-message">
+    <p>No Expiry drugs found</p>
+  </div>
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <!-- Drug Name Column -->
@@ -30,6 +34,20 @@
     <ng-container matColumnDef="manufacturer">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Manufacturer Company </th>
       <td mat-cell *matCellDef="let drug"> {{ drug.manufacturer }} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="strip">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Strip</th>
+      <td mat-cell *matCellDef="let drug"> {{ drug.strip }} </td>
+    </ng-container>
+    <ng-container matColumnDef="perStripQuantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>PerStripQuantity</th>
+      <td mat-cell *matCellDef="let drug"> {{ drug.perStripQuantity}} </td>
+    </ng-container>
+    <ng-container matColumnDef="perStripPrice">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> PerStripPrice </th>
+      <td mat-cell *matCellDef="let drug"> {{ drug.perStripPrice }} </td>
     </ng-container>
 
     <!-- Price Column -->

@@ -22,7 +22,7 @@ import { RegisterService } from '../../_Service/register.service';
     MatSidenavModule,
     MatListModule,
     CommonModule,
-
+RouterOutlet,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
@@ -80,7 +80,7 @@ export class DistributerDashbordComponent {
           localStorage.removeItem('user');
           localStorage.removeItem('accessToken');
           // Redirect to the login page after logout
-          this.router.navigate([' ']);  // Assuming your login route is '/login'
+          this.router.navigate(['']);  // Assuming your login route is '/login'
         },
         error => {
           console.error('Error during logout', error);

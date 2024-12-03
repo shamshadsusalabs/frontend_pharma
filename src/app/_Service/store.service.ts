@@ -7,6 +7,9 @@ export interface Drug {
   drugName: string;
   drugCode: string;
   batchNumber: string;
+  strip: number;              // New field
+  perStripQuantity: number;   // New field
+  perStripPrice: number;
   price: number;
   stock: number;
   discount: number;
@@ -14,6 +17,7 @@ export interface Drug {
   manufactureDate: Date;  // Changed to string to match the format from XLSX
   manufacturer: string;
   category: string;
+  typeofSack:string
 }
 
 export interface SupplyDetails {
@@ -47,6 +51,12 @@ export interface AlertData {
   category: string;
 }
 
+export interface StockUpdate {
+  drugCode: string;
+  quantity: number;
+  strip?: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -59,27 +69,26 @@ export class StoreService {
     return new Observable(observer => {
       const reader = new FileReader();
       reader.onload = (event) => {
-        console.log('File loaded');
+
         const data = new Uint8Array(event.target?.result as ArrayBuffer);
-        console.log('File data as Uint8Array:', data);
+
 
         const workbook = XLSX.read(data, { type: 'array' });
-        console.log('Parsed workbook:', workbook);
+
 
         // Assuming the first sheet contains the data
         const sheetName = workbook.SheetNames[0];
-        console.log('Sheet name:', sheetName);
+
 
         const sheet = workbook.Sheets[sheetName];
-        console.log('Sheet data:', sheet);
+
 
         // Convert sheet to JSON
         const jsonData: any[] = XLSX.utils.sheet_to_json(sheet);
-        console.log('Converted JSON data:', jsonData);
+
 
         // Format JSON to desired structure
         const formattedData = this.formatData(jsonData);
-        console.log('Formatted data:', formattedData);
 
         // Send formatted JSON data to the server
         this.http.post(`${this.apiUrl}store/create`, formattedData).subscribe(
@@ -143,6 +152,9 @@ export class StoreService {
         drugName: item.drugName,
         drugCode: item.drugCode,
         batchNumber: item.batchNumber,
+        strip: item.strip,                         // New field
+        perStripQuantity: item.perStripQuantity,   // New field
+        perStripPrice: item.perStripPrice,
         price: item.price,
         stock: item.stock,
         discount: item.discount,
@@ -154,6 +166,7 @@ export class StoreService {
           : item.manufactureDate, // Format manufactureDate if it's a serial number
         manufacturer: item.manufacturer,
         category: item.category,
+        typeofSack:item.typeofSack
       };
 
       formattedData.distributorSupplied.push(drug);
@@ -176,7 +189,9 @@ export class StoreService {
 
 
 
-  updateDrugStock(updates: { drugCode: string; quantity: number }[]): Observable<any> {
+
+
+  updateDrugStock(updates: StockUpdate[]): Observable<any> {
     const url = `${this.apiUrl}store/update-drug-stock`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 

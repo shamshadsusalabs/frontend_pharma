@@ -45,3 +45,9 @@ mat-form-field {
 .expiry-button:hover {
   opacity: 0.8;
 }
+.no-data-message {
+  text-align: center;
+  font-size: 18px;
+  color: #757575;
+  padding: 20px;
+}

@@ -225,7 +225,7 @@ mat-header-row:last-child, mat-row:last-child {
 
 .narrow-column input {
   font-size: 10px;
-  padding: 4px; /* Increased padding for better usability */
+  padding: 2px; /* Increased padding for better usability */
 }
 
 .mat-header-cell {

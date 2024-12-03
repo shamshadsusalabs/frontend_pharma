@@ -106,7 +106,16 @@ export const routes: Routes = [
       },
       {
         path: 'main-content-distributor',
-        loadComponent: () => import('./Distributer_Admin_component/distributer-dashbord/distributer-dashbord.component').then(c => c.DistributerDashbordComponent)
+        loadComponent: () => import('./Distributer_Admin_component/distributor-main-component/distributor-main-component.component').then(c => c.DistributorMainComponentComponent)
+      },
+
+      {
+        path: 'distributor-set',
+        loadComponent: () => import('./Distributer_Admin_component/distributor-set-shopanddiscount/distributor-set-shopanddiscount.component').then(c => c.DistributorSetShopanddiscountComponent)
+      },
+      {
+        path: 'distributor-discount',
+        loadComponent: () => import('./Distributer_Admin_component/distributor-discount/distributor-discount.component').then(c => c.DistributorDiscountComponent)
       },
 
 

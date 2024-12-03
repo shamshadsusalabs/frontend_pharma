@@ -30,7 +30,7 @@ import { RouterLink, } from '@angular/router';
   styleUrls: ['./store-view-drugs.component.css']
 })
 export class StoreViewDrugsComponent implements OnInit {
-  displayedColumns: string[] = ['drugName', 'drugCode', 'manufacturer','price', 'stock', 'discount' ,'expiryDate'];
+  displayedColumns: string[] = ['drugName', 'drugCode', 'manufacturer','strip','perStripQuantity','perStripPrice','price', 'stock', 'discount' ,'expiryDate'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

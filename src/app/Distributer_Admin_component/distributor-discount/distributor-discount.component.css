@@ -1,0 +1,13 @@
+.search-container {
+  margin-bottom: 20px;
+  display: flex; /* Aligns items horizontally */
+  gap: 10px; /* Adds spacing between the search bar and the button */
+}
+
+.search-bar {
+  width: 40%; /* Adjusts the width of the search bar */
+}
+
+.add-button {
+  align-self: center; /* Vertically aligns the button with the search bar */
+}

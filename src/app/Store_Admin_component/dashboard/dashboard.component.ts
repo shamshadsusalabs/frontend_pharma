@@ -87,5 +87,79 @@ openNotifications() {
       }
     );
   }
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    const key = event.key.toLowerCase();
+
+    // Ignore standalone Control key press
+    if (key === 'control') {
+      return;
+    }
+
+    // Log the key press
+    console.log(`Key pressed: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
+
+    // Handle Ctrl + Key combinations
+    if (event.ctrlKey) {
+      event.preventDefault(); // Prevent default browser behavior
+      switch (key) {
+        case 'd': // Ctrl + D
+          console.log('Navigating to: main-content');
+          this.router.navigate(['/Store-Admin-dashboard/main-content']);
+          break;
+        case 's': // Ctrl + S
+          console.log('Navigating to: store-view-drugs');
+          this.router.navigate(['/Store-Admin-dashboard/store-view-drugs']);
+          break;
+        case 'b': // Ctrl + B
+          console.log('Navigating to: billing-Form');
+          this.router.navigate(['/Store-Admin-dashboard/billing-Form']);
+          break;
+          case 'l': // Ctrl + B
+          console.log('Navigating to: billing-Form');
+          this.router.navigate(['/Store-Admin-dashboard/low-stock']);
+          break;
+        case 'i': // Ctrl + I
+          console.log('Navigating to: invoice');
+          this.router.navigate(['/Store-Admin-dashboard/invoice']);
+          break;
+        case 'u': // Ctrl + U
+          console.log('Navigating to: store-Upload-drugs');
+          this.router.navigate(['/Store-Admin-dashboard/store-Upload-drugs']);
+          break;
+        case 'f1': // Ctrl + F1
+          console.log('Navigating to: files');
+          this.router.navigate(['/Store-Admin-dashboard/files']);
+          break;
+        case 'f2': // Ctrl + F2
+          console.log('Navigating to: purchase-files');
+          this.router.navigate(['/Store-Admin-dashboard/purchase-files']);
+          break;
+        default:
+          console.log(`Unhandled Ctrl + ${key}`);
+          break;
+      }
+    } else {
+      // Handle standalone keys (e.g., F1, F2 without Ctrl)
+      switch (key) {
+        case 'f1': // F1 (without Ctrl)
+          console.log('Navigating to: files');
+          this.router.navigate(['/Store-Admin-dashboard/files']);
+          break;
+        case 'f2': // F2 (without Ctrl)
+          console.log('Navigating to: purchase-files');
+          this.router.navigate(['/Store-Admin-dashboard/purchase-files']);
+          break;
+        case 'm': // m key without Ctrl
+          console.log('Handled key: m without Ctrl');
+          break;
+        default:
+          console.log(`Unhandled key: ${key}`);
+          break;
+      }
+    }
+  }
+
+
 
 }

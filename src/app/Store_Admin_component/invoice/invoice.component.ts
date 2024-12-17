@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import * as XLSX from 'xlsx';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
@@ -29,6 +30,7 @@ import * as XLSX from 'xlsx';
     FormsModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    RouterLink
   ],
   templateUrl: './invoice.component.html',
   styleUrls: ['./invoice.component.css'],

@@ -145,6 +145,21 @@
     <mat-card class="bg-gray-100 p-4 rounded-md shadow mb-4 mt-60">
       <div class="flex justify-between items-start">
         <!-- Discount -->
+
+        <div class="text-sm">
+          <label class="block font-semibold mb-1" for="paymentMode">Payment Mode:</label>
+          <select
+            id="paymentMode"
+            class="border rounded-md w-full px-2 py-1"
+            formControlName="paymentMode"
+          >
+            <option value="" disabled selected>Select payment mode</option>
+            <option value="Cash">Cash</option>
+            <option value="Netbanking">Netbanking</option>
+            <option value="UPI">UPI</option>
+            <option value="Unpaid">Unpaid</option>
+          </select>
+        </div>
         <div class="text-sm">
           <label class="block font-semibold mb-1" for="discount">Discount:</label>
           <input

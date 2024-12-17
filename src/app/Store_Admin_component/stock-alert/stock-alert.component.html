@@ -1,22 +1,23 @@
-<mat-card class="notification-card" *ngFor="let alert of stockAlerts; let i = index">
-  <mat-card-header>
-    <mat-icon mat-card-avatar>notifications</mat-icon>
-    <mat-card-title>{{ alert.drugName }}</mat-card-title>
-    <mat-card-subtitle>{{ alert.drugCode }}</mat-card-subtitle>
-  </mat-card-header>
+<ng-container *ngIf="stockAlerts.length > 0; else noNotifications">
+  <mat-card class="notification-card" *ngFor="let alert of stockAlerts; let i = index">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>notifications</mat-icon>
+      <mat-card-title>{{ alert.drugName }}</mat-card-title>
+      <mat-card-subtitle>{{ alert.drugCode }}</mat-card-subtitle>
+    </mat-card-header>
 
-  <mat-card-content>
-    <p>{{ alert.message }}</p>
-    <p><strong>Alert Time:</strong> {{ alert.alertTimestamp | date:'short' }}</p>
-  </mat-card-content>
-
-
+    <mat-card-content>
+      <p>{{ alert.message }}</p>
+      <p><strong>Alert Time:</strong> {{ alert.alertTimestamp | date:'short' }}</p>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
 
 <!-- Template for no notifications -->
-<ng-container *ngIf="stockAlerts.length === 0">
+<ng-template #noNotifications>
   <mat-card class="notification-card">
     <mat-card-content>
       <p>No notifications available.</p>
     </mat-card-content>
   </mat-card>
-</ng-container>
+</ng-template>

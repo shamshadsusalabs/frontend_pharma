@@ -56,13 +56,14 @@ export class BillingFormComponent implements OnInit {
     this.billingForm = this.fb.group({
       patientName: [''],
       doctorName: [''],
-      AdharCardNumber: [''],
+      AdharCardNumber: ['',Validators.required],
       date: [''],
       address: [''],
-      ContactNumber: [''],
+      ContactNumber: ['',Validators.required],
       gst: [18], // Default GST is 18%
       discount: [0], // Default discount is 0%
-      totalAmount: [], // Readonly total amount
+      totalAmount: [],
+      paymentMode: ['Cash'],/// Readonly total amount
       rows: this.fb.array([]), // Table rows
     });
 
@@ -178,38 +179,46 @@ export class BillingFormComponent implements OnInit {
 
   onStripsChange(index: number): void {
 
-    const row = this.rows.at(index) as FormGroup; // Type cast row to FormGroup
-    const strips = +row.get('strip')?.value || 0; // Get entered strips (default to 0 if null/undefined)
-    const drugCode = row.get('drugCode')?.value; // Get the drug code for the current row
+
+    const row = this.rows.at(index) as FormGroup;
+
+    const strips = +row.get('strip')?.value || 0;
 
 
+    const drugCode = row.get('drugCode')?.value;
 
-    // Find the matching drug in the filteredDrugsCodestrip array
+
     const matchingDrug = this.filteredDrugsCodestrip.find(drug => drug.drugCode === drugCode);
 
+
     if (matchingDrug) {
+      const perStripQuantity = matchingDrug.perStripQuantity || 0;
 
 
-      const perStripQuantity = matchingDrug.perStripQuantity || 0; // Default to 0 if undefined
-      const quantity = strips * perStripQuantity; // Calculate total quantity
+      const quantity = strips * perStripQuantity;
 
 
-      // Update the quantity field in the current row
-      row.get('quantity')?.setValue(quantity, { emitEvent: false }); // Update quantity
-      this.cdr.detectChanges(); // Trigger change detection manually
-
-      // Log to check the updated value
+      row.get('quantity')?.setValue(quantity, { emitEvent: false });
 
 
-      // Call onQuantityOrMrpChange manually to ensure recalculation of amount
+      this.cdr.detectChanges();
+
+
       this.onQuantityOrMrpChange(row);
-      this.filteredDrugsCodestrip= []; // Pass row to the function as FormGroup
-    } else {
 
-      row.get('quantity')?.setValue(0, { emitEvent: false });  // Reset quantity to 0 if no matching drug
-      this.cdr.detectChanges(); // Trigger change detection manually
+
+      this.filteredDrugsCodestrip = [];
+    } else {
+      row.get('quantity')?.setValue(0, { emitEvent: false });
+
+
+      this.cdr.detectChanges();
+
     }
   }
+
+
+
 
 
 
@@ -257,7 +266,7 @@ export class BillingFormComponent implements OnInit {
     return this.fb.group({
       drugName: [''],
       drugCode: [''],
-      strip:[0],
+      strip:[],
       quantity: [0, Validators.required],
       mrp: [0, Validators.required],
       amount: [0, Validators.required],
@@ -300,118 +309,103 @@ export class BillingFormComponent implements OnInit {
     this.calculateTotalAmount();
   }
   onSubmit(): void {
-    if (this.billingForm.valid) {
-      const formValues = this.billingForm.value;
+    const formValues = this.billingForm.value;
 
-      // Retrieve user object from local storage and extract the _id
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const userId = user._id || ''; // Ensure it’s a string or empty if not found
+    // Retrieve user object from local storage and extract the _id
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user._id || ''; // Ensure it’s a string or empty if not found
 
-      // Filter out empty rows from the 'rows' array
-      const filteredRows = formValues.rows.filter(
-        (row: { drugName: any; drugCode: any; strip: number; quantity: number; mrp: number }) =>
-          row.drugName && row.drugCode && row.quantity > 0 && row.mrp > 0
-      );
+    // Filter out empty rows from the 'rows' array
+    const filteredRows = formValues.rows.filter(
+      (row: { drugName: any; drugCode: any; strip: number; quantity: number; mrp: number }) =>
+        row.drugName && row.drugCode && row.quantity > 0 && row.mrp > 0
+    );
 
-      // Prepare data for updateDrugStock service
-      const stockUpdates = filteredRows.map((row: { drugCode: string; quantity: number; strip?: number }) => {
-        const stockUpdate: { drugCode: string; quantity: number; strip?: number } = {
-          drugCode: row.drugCode,
-          quantity: row.quantity,
-        };
+    // Prepare data for updateDrugStock service
+    const stockUpdates = filteredRows.map((row: { drugCode: string; quantity: number; strip?: number }) => {
+      const stockUpdate: { drugCode: string; quantity: number; strip?: number } = {
+        drugCode: row.drugCode,
+        quantity: row.quantity,
+      };
 
-        // Include strip only if it's provided or has a value greater than zero
-        if (row.strip !== undefined && row.strip > 0) {
-          stockUpdate.strip = row.strip;
-        }
+      // Include strip only if it's provided or has a value greater than zero
+      if (row.strip !== undefined && row.strip > 0) {
+        stockUpdate.strip = row.strip;
+      }
 
-        return stockUpdate;
-      });
+      return stockUpdate;
+    });
 
+    formValues.rows = filteredRows;
+    formValues.userId = userId;
 
-      formValues.rows = filteredRows;
-      formValues.userId = userId;
+    // Step 1: Call createBilling service
+    this.storeBillingService.createBilling(formValues).subscribe(
+      (billingResponse) => {
+        this.toastr.success('Billing created successfully!', 'Success'); // Success message
 
-      // Step 1: Call createBilling service
-      this.storeBillingService.createBilling(formValues).subscribe(
-        (billingResponse) => {
-
-          this.toastr.success('Billing created successfully!', 'Success'); // Success message
-
-          // Step 2: Call updateDrugStock service
-          this.storeService.updateDrugStock(stockUpdates).subscribe(
-            (updateResponse) => {
-              this.FileSaver();
-              this.toastr.success('Stock updated successfully!', 'Success'); // Success message
-              this.billingForm.reset(); // Reset form after success
-            },
-            (updateError) => {
-              this.toastr.error('Error updating stock.', 'Something went wrong'); // Error message
-            }
-          );
-        },
-        (billingError) => {
-          this.toastr.error('Error creating billing.', 'Something went wrong'); // Error message
-        }
-      );
-    } else {
-      this.toastr.error('Form is not valid.', 'Error'); // Validation error message
-    }
+        // Step 2: Call updateDrugStock service
+        this.storeService.updateDrugStock(stockUpdates).subscribe(
+          (updateResponse) => {
+            this.FileSaver();
+            this.toastr.success('Stock updated successfully!', 'Success'); // Success message
+              this.resetForm(); // Reset form after success
+          },
+          (updateError) => {
+            this.toastr.error('Error updating stock.', 'Something went wrong'); // Error message
+          }
+        );
+      },
+      (billingError) => {
+        this.toastr.error('Error creating billing.', 'Something went wrong'); // Error message
+      }
+    );
   }
-
 
   FileSaver() {
-    if (this.billingForm.valid) {
-      const formValues = this.billingForm.value;
+    const formValues = this.billingForm.value;
 
-      // Retrieve the user object from localStorage
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const userId = user._id || '';
+    // Retrieve the user object from localStorage
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user._id || '';
 
-      // Extract and display user details
-      const userDetails = {
-        id: userId,
-        name: user.name || '',
-        email: user.email || '',
-        contact: user.contact || '',
-        gstNumber: user.gstNumber || '',
-        licenseNumber: user.licenseNumber || '',
-        profile: user.profile || '',
-        shopName: user.shopName || ''
-      };
+    // Extract and display user details
+    const userDetails = {
+      id: userId,
+      name: user.name || '',
+      email: user.email || '',
+      contact: user.contact || '',
+      gstNumber: user.gstNumber || '',
+      licenseNumber: user.licenseNumber || '',
+      profile: user.profile || '',
+      shopName: user.shopName || ''
+    };
 
-      // Filter out empty rows from the 'rows' array
-      const filteredRows = formValues.rows.filter(
-        (row: { drugName: any; drugCode: any; quantity: number; mrp: number }) =>
-          row.drugName && row.drugCode && row.quantity > 0 && row.mrp > 0
-      );
+    // Filter out empty rows from the 'rows' array
+    const filteredRows = formValues.rows.filter(
+      (row: { drugName: any; drugCode: any; quantity: number; mrp: number }) =>
+        row.drugName && row.drugCode && row.quantity > 0 && row.mrp > 0
+    );
 
+    // Prepare the complete form data with user details and filtered rows
+    const completeFormData = {
+      ...formValues,
+      rows: filteredRows,
+      userDetails: userDetails // Send the user details along with the form data
+    };
 
-
-      // Prepare the complete form data with user details and filtered rows
-      const completeFormData = {
-        ...formValues,
-        rows: filteredRows,
-        userDetails: userDetails // Send the user details along with the form data
-      };
-
-
-
-      // Call the service to send the form data to the backend
-      this.fileService.createBilling(completeFormData).subscribe(
-        (response) => {
-
-          // Handle success logic (e.g., show a success message)
-        },
-        (error) => {
-          console.error('Error creating billing entry:', error);
-          // Handle error logic (e.g., show an error message)
-        }
-      );
-    } else {
-      console.error('Form is not valid');
-    }
+    // Call the service to send the form data to the backend
+    this.fileService.createBilling(completeFormData).subscribe(
+      (response) => {
+        // Handle success logic (e.g., show a success message)
+      },
+      (error) => {
+        console.error('Error creating billing entry:', error);
+        // Handle error logic (e.g., show an error message)
+      }
+    );
   }
+
 
 // Example call to test the function
 
@@ -475,5 +469,28 @@ export class BillingFormComponent implements OnInit {
 
 
 
+  resetForm() {
+    const gstValue = this.billingForm.get('gst')?.value;  // Get current value of gst
+    const paymentModeValue = this.billingForm.get('paymentMode')?.value;  // Get current value of paymentMode
+
+    // Reset the form except for gst and paymentMode
+    this.billingForm.reset({
+      patientName: '',
+      doctorName: '',
+      AdharCardNumber: '',
+      date: '',
+      address: '',
+      ContactNumber: '',
+      discount: 0,
+      totalAmount: [],
+      rows: [],  // Reset table rows as well
+    });
+
+    // Keep the original values of gst and paymentMode
+    this.billingForm.patchValue({
+      gst: gstValue,
+      paymentMode: paymentModeValue
+    });
+  }
 
 }

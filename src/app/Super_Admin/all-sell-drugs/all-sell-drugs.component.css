@@ -1,0 +1,86 @@
+/* General Styles */
+.mat-elevation-z8 {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Search Bar */
+.search-bar {
+  margin: 20px 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Export Button */
+.export-btn {
+  margin-left: 20px;
+  background-color: #4caf50;
+  color: white;
+}
+
+.export-btn:hover {
+  background-color: #45a049;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-spacing: 0 15px; /* Adds vertical space between rows */
+}
+
+th.mat-header-cell {
+  background-color: #f1f1f1;
+  color: #333;
+  font-weight: 600;
+  padding: 15px 10px; /* Increased padding for headers */
+  text-align: left;
+}
+
+td.mat-cell {
+  padding: 15px 10px; /* Increased padding for cells */
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+tr.mat-header-row {
+  background-color: #f1f1f1;
+}
+
+tr.mat-row:hover {
+  background-color: #fafafa;
+}
+
+/* Paginator Styles */
+mat-paginator {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Responsive Styling */
+@media (max-width: 768px) {
+  .search-input {
+    width: 100%;
+  }
+
+  .mat-header-cell, .mat-cell {
+    padding: 12px;
+  }
+}

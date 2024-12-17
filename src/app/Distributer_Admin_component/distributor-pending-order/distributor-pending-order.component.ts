@@ -1,0 +1,119 @@
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { ViewChild } from '@angular/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { OrderPending, OrderService } from '../../_Service/order.service';
+ // Adjust the path// Adjust the path
+ import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
+@Component({
+  selector: 'app-distributor-pending-order',
+  standalone: true,
+  imports: [
+    // Add Angular Material modules used
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    RouterLink
+  ],
+  templateUrl: './distributor-pending-order.component.html',
+  styleUrls: ['./distributor-pending-order.component.css'],
+})
+export class DistributorPendingOrderComponent implements OnInit {
+  displayedColumns: string[] = [
+    'drugName',
+    'contact',
+    'shopName',
+    'name',
+    'quantity',
+       'paymentMode',
+    'action',
+
+  ];
+  dataSource: MatTableDataSource<OrderPending> = new MatTableDataSource<OrderPending>();
+  userId: string = '';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private orderService: OrderService,private toastr: ToastrService) {}
+
+  ngOnInit() {
+    // Get user ID from localStorage
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.userId = user._id;
+
+    // Fetch pending orders
+    this.fetchPendingOrders();
+  }
+
+  fetchPendingOrders() {
+    if (this.userId) {
+      this.orderService.getPendingOrdersByUserId(this.userId).subscribe({
+        next: (orders: OrderPending[]) => {
+          this.dataSource.data = orders;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          console.error('Error fetching pending orders:', err);
+        },
+      });
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+
+  confirmOrder(orderId: string) {
+    console.log('Confirming order with ID:', orderId);
+
+    // Call the service with the order ID and set action to 'Confirm'
+    this.orderService.updateOrderStatus(orderId, 'Confirm').subscribe(
+      response => {
+        console.log('Order updated:', response.message);
+        this.toastr.success('Your order is successfully accepted!', 'Order Confirmed');
+        // Handle the response, like showing a success message
+
+      },
+      error => {
+        console.error('Error confirming order:', error);
+        // Handle error response, like showing an error message
+
+      }
+    );
+  }
+
+
+  cancelOrder(orderId: string) {
+    console.log('Confirming order with ID:', orderId);
+
+    // Call the service with the order ID and set action to 'Confirm'
+    this.orderService.updateOrderStatus(orderId, 'Cancelled').subscribe(
+      response => {
+        console.log('Order updated:', response.message);
+        this.toastr.success('Your have suceesfully cancellled the order');
+        // Handle the response, like showing a success message
+
+      },
+      error => {
+        console.error('Error confirming order:', error);
+        // Handle error response, like showing an error message
+        alert('Error confirming order.');
+      }
+    );
+
+}}

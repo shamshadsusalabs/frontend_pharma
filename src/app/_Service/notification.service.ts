@@ -14,6 +14,13 @@ export interface StockAlert {
   updatedAt: string;
 }
 
+export interface LowStockAlert{
+  totalCount:number
+}
+
+export interface ExpiryStockAlert{
+  totalCountExpiry:number
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -21,6 +28,11 @@ export class NotificationService {
   private apiUrl = 'http://localhost:3000/api/v1/stockAlert'; // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
+
+  countDistinctDrugAlerts(userId: string): Observable<LowStockAlert> {
+    return this.http.get<LowStockAlert>(`${this.apiUrl}/count-drug-alerts/${userId}`);
+  }
+
 
   // Method to fetch stock alerts for a specific user by their userId
   getStockAlertsByUser(): Observable< StockAlert[]> {
@@ -44,6 +56,10 @@ export class NotificationService {
 
 
   private apiUrl1 = 'http://localhost:3000/api/v1/expiryAlert/expiry/';
+  private apiUrl2 = 'http://localhost:3000/api/v1/expiryAlert';
+  countDistinctDrugExpiryAlerts(userId: string): Observable<ExpiryStockAlert> {
+    return this.http.get<ExpiryStockAlert>(`${this.apiUrl2}/count-drug-expiry-alerts/${userId}`);
+  }
 
   getExpiryByUser(): Observable< StockAlert[]> {
     const user = JSON.parse(localStorage.getItem('user') || '{}'); // Ensure 'user' object is present in localStorage

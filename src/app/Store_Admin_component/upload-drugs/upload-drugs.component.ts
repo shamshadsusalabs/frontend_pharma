@@ -67,6 +67,34 @@ export class UploadDrugsComponent {
     }
   }
 
+  onUpdateStore(): void {
+    if (this.selectedFile) {
+      // Show SweetAlert loader before starting update store
+      Swal.fire({
+        title: 'Updating store...',
+        text: 'Please wait while the store is being updated.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      this.csvUploadService.uploadXlsxUpdate(this.selectedFile).subscribe(
+        (response) => {
+          this.showSuccessMessage('Store updated successfully!');
+          Swal.close(); // Close SweetAlert loader
+          this.resetFileInput();
+        },
+        (error) => {
+          const errorMessage = this.parseError(error);
+          this.showErrorMessage(errorMessage);
+          Swal.close(); // Close SweetAlert loader
+          this.resetFileInput();
+        }
+      );
+    }
+  }
+
   parseError(error: any): string {
     if (error?.error?.error?.includes('duplicate key error')) {
       const regex = /dup key: { .*: "(.*)" }/;

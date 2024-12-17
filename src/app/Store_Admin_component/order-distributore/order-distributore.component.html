@@ -1,0 +1,127 @@
+
+  <!-- Filters Section -->
+  <div class="filters">
+    <!-- Drug Name Filter -->
+    <mat-form-field  appearance="outline">
+      <mat-label>Search by Drug Name</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event, 'drugName')"
+        placeholder="Search by Drug Name"
+      />
+    </mat-form-field>
+
+    <!-- Discount Filter -->
+    <mat-form-field  appearance="outline">
+      <mat-label>Minimum Discount (%)</mat-label>
+      <input
+        matInput
+        type="number"
+        (keyup)="applyFilter($event, 'discount')"
+        placeholder="Enter Minimum Discount"
+      />
+    </mat-form-field>
+
+    <!-- Delivery Time Filter -->
+    <mat-form-field appearance="outline">
+      <mat-label>Maximum Delivery Time (hours)</mat-label>
+      <input
+        matInput
+        type="number"
+        (keyup)="applyFilter($event, 'deliveryTime')"
+        placeholder="Enter Maximum Delivery Time"
+      />
+    </mat-form-field>
+  </div>
+
+
+
+
+  <!-- Material Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Shop Name Column -->
+    <ng-container matColumnDef="shopName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Shop Name</th>
+      <td mat-cell *matCellDef="let distributor">{{ distributor.shopName }}</td>
+    </ng-container>
+
+    <!-- Drug Name Column -->
+    <ng-container matColumnDef="drugName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Drug Name</th>
+      <td mat-cell *matCellDef="let distributor">{{ distributor.drugName }}</td>
+    </ng-container>
+
+    <!-- Discount Column -->
+    <ng-container matColumnDef="discount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Discount (%)</th>
+      <td mat-cell *matCellDef="let distributor">{{ distributor.discount }}</td>
+    </ng-container>
+
+    <!-- Delivery Time Column -->
+    <ng-container matColumnDef="deliveryTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Delivery Time (hours)</th>
+      <td mat-cell *matCellDef="let distributor">{{ distributor.deliveryTime }}</td>
+    </ng-container>
+
+    <!-- Address Column -->
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+      <td mat-cell *matCellDef="let distributor">{{ distributor.address }}</td>
+    </ng-container>
+
+  <!-- Actions Column -->
+<ng-container matColumnDef="actions">
+  <th mat-header-cell *matHeaderCellDef>Actions</th>
+  <td mat-cell *matCellDef="let distributor">
+    <!-- Order Button -->
+    <button mat-raised-button color="primary" (click)="showInput(distributor)">
+      Order
+    </button>
+
+    <!-- Quantity Input Field and Payment Mode -->
+    <div *ngIf="selectedDistributor === distributor">
+      <mat-form-field appearance="outline">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" [(ngModel)]="quantity" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Payment Mode</mat-label>
+        <mat-select [(ngModel)]="paymentMode" name="paymentMode">
+          <mat-option value="cash">Cash</mat-option>
+          <mat-option value="advance">Advance</mat-option>
+          <mat-option value="upi">UPI</mat-option>
+          <mat-option value="netBanking">Net Banking</mat-option>
+          <mat-option value="credit">Credit</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="onOrder(distributor)"
+        [disabled]="!quantity || !paymentMode"
+      >
+        Submit
+      </button>
+      <button mat-button (click)="cancelInput()">Cancel</button>
+    </div>
+  </td>
+</ng-container>
+
+
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <!-- Paginator -->
+  <mat-paginator
+    [pageSize]="5"
+    [pageSizeOptions]="[5, 10, 25]"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+

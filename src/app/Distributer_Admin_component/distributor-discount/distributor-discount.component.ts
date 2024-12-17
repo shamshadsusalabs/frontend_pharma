@@ -12,20 +12,30 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-distributor-discount',
   standalone: true,
-  imports: [MatTableModule,
+  imports: [
+    MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    MatFormFieldModule],
+    MatFormFieldModule,
+  ],
   templateUrl: './distributor-discount.component.html',
-  styleUrl: './distributor-discount.component.css'
+  styleUrls: ['./distributor-discount.component.css'],
 })
 export class DistributorDiscountComponent {
-  displayedColumns: string[] = ['shopName', 'discount', 'deliveryType1', 'deliveryTime', 'address', 'actions'];
-  dataSource = new MatTableDataSource<Discount>();
+  displayedColumns: string[] = [
+    'shopName',
+    'drugName',
+    'discount',
+    'deliveryType1',
+    'deliveryTime',
+    'address',
+    'actions',
+  ];
+  dataSource = new MatTableDataSource<Discount>([]); // Correct type to Discount instead of Discount[]
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -52,7 +62,8 @@ export class DistributorDiscountComponent {
     const userId = JSON.parse(localStorage.getItem('user') || '{}')._id; // Get userId from local storage
     this.discountService.getDiscountByUserId(userId).subscribe(
       (data) => {
-        this.dataSource.data = [data]; // Assuming single distributor per user
+        // Check if multiple distributors are returned and set the data directly
+        this.dataSource.data = Array.isArray(data) ? data : [data];
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       },

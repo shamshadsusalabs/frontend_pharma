@@ -2,14 +2,11 @@
   <mat-sidenav #sidenav mode="side" class="sidenav" [opened]="isScreenLarge()">
     <img src="/logo.webp" alt="Pharma Logo" class="logo" />
     <mat-nav-list class="s">
-      <a mat-list-item class="nav-item" routerLink="/home">
+      <a mat-list-item class="nav-item" routerLink="main-content">
         <mat-icon class="nav-icon">home</mat-icon>
         <span class="nav-text">Home</span>
       </a>
-      <a mat-list-item class="nav-item" routerLink="/profile">
-        <mat-icon class="nav-icon">account_circle</mat-icon>
-        <span class="nav-text">Profile</span>
-      </a>
+
       <a mat-list-item class="nav-item" routerLink="store-view-drugs">
         <mat-icon class="nav-icon">store</mat-icon>
         <span class="nav-text">Store</span>
@@ -43,11 +40,11 @@
         <mat-icon class="nav-icon">upload</mat-icon>
         <span class="nav-text">Upload Drugs</span>
       </a>
-      <a mat-list-item class="nav-item" routerLink="/settings">
+      <a mat-list-item class="nav-item" routerLink="setting">
         <mat-icon class="nav-icon">settings</mat-icon>
         <span class="nav-text">Settings</span>
       </a>
-      <a mat-list-item class="nav-item" routerLink="/logout">
+      <a mat-list-item class="nav-item" >
         <mat-icon class="nav-icon">logout</mat-icon>
         <span class="nav-text"  (click)="onLogout()">Logout</span>
       </a>

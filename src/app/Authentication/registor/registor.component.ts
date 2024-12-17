@@ -88,7 +88,7 @@ export class RegistorComponent {
             positionClass: 'toast-top-right'
           });
           this.registerForm.reset();
-          this.router.navigate(['']);
+          this.router.navigate(['/narcotis-department-login']);
            // Reset the form fields
         },
         error => {

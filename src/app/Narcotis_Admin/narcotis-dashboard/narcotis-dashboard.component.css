@@ -1,0 +1,127 @@
+/* Container for Sidenav */
+.sidenav-container {
+  height: 100vh; /* Full viewport height */
+}
+
+/* Sidenav Styles */
+.sidenav {
+  width: 200px; /* Fixed width for sidenav */
+  background-color: #ffffff; /* White background for sidenav */
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Sidenav Links */
+.s {
+  margin-top: 20px; /* Spacing from top */
+}
+
+.nav-item {
+  display: flex; /* Flex to align icon and text */
+  align-items: center; /* Center items vertically */
+  padding: 10px 16px; /* Padding around each item */
+  margin: 5px 0; /* Vertical margin between items */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth hover transition */
+  text-decoration: none; /* Remove underline from links */
+  color: #000; /* Default text color */
+}
+
+/* Icon Styles */
+.nav-icon {
+  margin-top: 10px;
+  margin-right: 25px; /* Spacing between icon and text */
+  font-size: 24px; /* Adjust icon size */
+}
+
+/* Text Styles */
+.nav-text {
+  font-size: 16px; /* Font size for text */
+}
+
+/* Hover effect for links */
+.nav-item:hover {
+  background-color: #e3f2fd; /* Light blue background on hover */
+}
+
+/* Upper Navbar Styles */
+.upper-navbar {
+  position: fixed; /* Make the navbar fixed */
+  top: 0; /* Position it at the top */
+  left: 0; /* Align it to the left */
+  right: 0; /* Stretch it to the right */
+  background-color: #ffffff; /* White background for upper navbar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1; /* Layer above sidenav */
+  display: flex; /* Flexbox for layout */
+  align-items: center; /* Center items vertically */
+  padding: 0 16px; /* Padding for spacing */
+  justify-content: space-between; /* Space between title and buttons */
+}
+
+/* Spacer */
+.spacer {
+  flex: 1; /* Takes up remaining space to push buttons to the right */
+}
+
+/* Toolbar Title */
+.toolbar-title {
+  font-size: 1.5rem; /* Larger font size for title */
+  font-weight: bold; /* Bold title */
+  color: #1976d2; /* Primary color for title */
+}
+
+/* Sidenav Toggle Button */
+.sidenav-toggle {
+  margin-right: 16px; /* Space between button and title */
+}
+
+/* Content Area */
+.content {
+  padding: 16px; /* Padding around content */
+  margin-top: 64px; /* Add margin-top to prevent content from being hidden under the fixed navbar */
+}
+
+.logo {
+  width: 80px; /* Width of the logo */
+  margin-bottom: 1rem; /* Bottom margin for spacing */
+  margin-top: 30px; /* Top margin for spacing */
+  margin-left: 20px; /* Left margin for spacing */
+}
+.uppericons{
+  margin-right: 20px;
+}
+/* Button Styles */
+.mat-button {
+  color: #1976d2; /* Primary color for buttons */
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+/* Hover effect for buttons */
+.mat-button:hover {
+  background-color: #e3f2fd; /* Light blue background on hover */
+  color: #1976d2; /* Keep text color consistent */
+}
+
+/* Icon Styles */
+.mat-nav-list mat-icon {
+  margin-right: 8px; /* Spacing between icon and text */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .sidenav {
+    width: 180px; /* Adjust sidenav width for smaller screens */
+  }
+
+  .upper-navbar {
+    padding: 0 8px; /* Adjust padding for upper navbar */
+  }
+
+  .nav-item {
+    margin: 5px 0; /* Adjust vertical spacing for smaller screens */
+  }
+
+  .toolbar-title {
+    font-size: 1.25rem; /* Reduce font size for smaller screens */
+  }
+}

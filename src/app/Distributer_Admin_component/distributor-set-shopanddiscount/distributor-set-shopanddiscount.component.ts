@@ -33,6 +33,8 @@ export class DistributorSetShopanddiscountComponent {
   ) {
     this.distributorForm = this.fb.group({
       shopName: ['', Validators.required],
+      drugName: ['', Validators.required],
+      contactNumber:['', Validators.required],
       discount: [0, [Validators.required, Validators.min(0)]],
       deliveryType1: ['', Validators.required],
       deliveryTime: [0, [Validators.required, Validators.min(0)]],

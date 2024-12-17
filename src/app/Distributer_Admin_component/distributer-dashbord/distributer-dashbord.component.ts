@@ -87,6 +87,49 @@ export class DistributerDashbordComponent {
         }
       );
     }
+    @HostListener('window:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+      const key = event.key.toLowerCase();
+
+      // Ignore standalone Control key press
+      if (key === 'control') {
+        return;
+      }
+
+      // Log the key press
+      console.log(`Key pressed: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
+
+      // Handle Ctrl + Key combinations
+      if (event.ctrlKey) {
+        event.preventDefault(); // Prevent default browser behavior
+        switch (key) {
+          case 'm': // Ctrl + D
+            console.log('Navigating to: main-content');
+            this.router.navigate(['/Distributor-Admin-dashboard/main-content-distributor']);
+            break;
+          case 's': // Ctrl + S
+            console.log('Navigating to: store-view-drugs');
+            this.router.navigate(['/Distributor-Admin-dashboard/distributor-set']);
+            break;
+          case 'd': // Ctrl + B
+            console.log('Navigating to: billing-Form');
+            this.router.navigate(['/Distributor-Admin-dashboard/distributor-discount']);
+            break;
+          case 'p': // Ctrl + L
+            console.log('Navigating to: low-stock');
+            this.router.navigate(['/Distributor-Admin-dashboard/distributor-Pending-Order']);
+            break;
+          case 'c': // Ctrl + I
+            console.log('Navigating to: invoice');
+            this.router.navigate(['/Distributor-Admin-dashboard/distributor-Confirm-Order']);
+            break;
+
+          default:
+            console.log(`Unhandled Ctrl + ${key}`);
+            break;
+        }
+      }
+    }
 
   }
 

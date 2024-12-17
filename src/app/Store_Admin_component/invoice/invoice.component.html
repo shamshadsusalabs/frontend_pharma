@@ -4,7 +4,8 @@
     <mat-label>Search</mat-label>
     <input matInput (keyup)="applyFilter($event)" placeholder="Search" />
   </mat-form-field>
-  <button mat-raised-button color="accent" (click)="exportToExcel()">Export to Excel</button>
+  <button mat-raised-button color="accent" style="padding-left: 20px;" (click)="exportToExcel()">Export to Excel</button>
+  <button mat-raised-button color="accent" style="padding-left: 20px;" routerLink="../unpaid-invoice" >Unpaid-Invoice</button>
   <!-- Filters Section (All in one row) -->
   <div class="filters">
     <!-- Patient Name Filter -->

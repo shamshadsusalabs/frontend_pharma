@@ -71,6 +71,9 @@ export class LoginComponent {
           else if (profileType === 'Distributor') {
             this.router.navigate(['/Distributor-Admin-dashboard']);
           }
+          else if (profileType === 'Super-Admin') {
+            this.router.navigate(['/Super-Admin']);
+          }
           else {
             this.toastr.error('Unknown profile type. Please contact support.', 'Error');
           }

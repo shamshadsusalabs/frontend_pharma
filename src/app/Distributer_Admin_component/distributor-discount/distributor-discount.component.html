@@ -22,6 +22,11 @@
         <td mat-cell *matCellDef="let element"> {{ element.shopName }} </td>
       </ng-container>
 
+      <ng-container matColumnDef="drugName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> DrugName</th>
+        <td mat-cell *matCellDef="let element"> {{ element.drugName }} </td>
+      </ng-container>
+
       <!-- Discount Column -->
       <ng-container matColumnDef="discount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount (%) </th>

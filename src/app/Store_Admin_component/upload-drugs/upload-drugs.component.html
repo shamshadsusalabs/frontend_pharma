@@ -19,9 +19,14 @@
         </div>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="accent" (click)="onUpload()" [disabled]="!selectedFile">
-          Upload
-        </button>
+        <div class="button-container">
+          <button mat-raised-button color="accent" (click)="onUpload()" [disabled]="!selectedFile">
+            Upload
+          </button>
+          <button mat-raised-button color="warn" (click)="onUpdateStore()" [disabled]="!selectedFile">
+            Update Store
+          </button>
+        </div>
       </mat-card-actions>
     </mat-card>
   </div>

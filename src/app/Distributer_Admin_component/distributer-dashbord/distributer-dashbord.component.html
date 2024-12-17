@@ -2,7 +2,7 @@
   <mat-sidenav #sidenav mode="side" class="sidenav" [opened]="isScreenLarge()">
     <img src="/logo.webp" alt="Pharma Logo" class="logo" />
     <mat-nav-list class="s">
-      <a mat-list-item class="nav-item" routerLink="/home">
+      <a mat-list-item class="nav-item" routerLink="main-content-distributor">
         <mat-icon class="nav-icon">home</mat-icon>
         <span class="nav-text">Home</span>
       </a>
@@ -12,7 +12,12 @@
         <mat-icon class="nav-icon">assignment_ind</mat-icon>
         <span class="nav-text">Set discount</span>
       </a>
-      <a mat-list-item class="nav-item" routerLink="/settings">
+      <a mat-list-item class="nav-item" routerLink="distributor-Pending-Order">
+        <mat-icon class="nav-icon">assignment</mat-icon>
+        <span class="nav-text">Received Order</span>
+      </a>
+
+      <a mat-list-item class="nav-item" routerLink="setting-distributor">
         <mat-icon class="nav-icon">settings</mat-icon>
         <span class="nav-text">Settings</span>
       </a>

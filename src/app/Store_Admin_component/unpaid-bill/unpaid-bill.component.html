@@ -1,0 +1,85 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title style="padding-left: 500px;">Unpaid Billing Records</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Search Bar for filtering -->
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (input)="applyFilter($event)" placeholder="Search for a bill">
+    </mat-form-field>
+
+    <!-- Table for displaying unpaid bills -->
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Patient Name Column -->
+        <ng-container matColumnDef="patientName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Patient Name</th>
+          <td mat-cell *matCellDef="let element">{{ element.patientName }}</td>
+        </ng-container>
+
+
+
+        <!-- Adhar Card Number Column -->
+        <ng-container matColumnDef="AdharCardNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Adhar Card Number</th>
+          <td mat-cell *matCellDef="let element">{{ element.AdharCardNumber }}</td>
+        </ng-container>
+
+        <!-- Contact Number Column -->
+        <ng-container matColumnDef="ContactNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact Number</th>
+          <td mat-cell *matCellDef="let element">{{ element.ContactNumber }}</td>
+        </ng-container>
+
+        <!-- Total Amount Column -->
+        <ng-container matColumnDef="totalAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
+          <td mat-cell *matCellDef="let element">{{ element.totalAmount | currency: 'INR' }}</td>
+        </ng-container>
+
+
+        <!-- Payment Mode Column -->
+        <ng-container matColumnDef="paymentMode">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Mode</th>
+          <td mat-cell *matCellDef="let element">{{ element.paymentMode }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <!-- Push Notification Icon (bell icon) -->
+            <mat-icon (click)="handleAction(element._id)" style="cursor: pointer;">notifications</mat-icon>
+
+            <!-- Input Box for Message (Visible when action is clicked) -->
+            <div *ngIf="inputVisibility[element._id]">
+              <mat-form-field appearance="outline">
+                <mat-label>Enter Message</mat-label>
+                <input matInput
+                  [(ngModel)]="messages[element._id]"
+                  (input)="onMessageChange(element._id, $event)" placeholder="Enter your message">
+              </mat-form-field>
+              <button mat-button (click)="submitMessage(element._id)">Submit</button>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Header and Data Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <!-- Pagination and Sorting Controls -->
+    <div class="pagination-container">
+      <mat-paginator
+        [length]="dataSource.data.length"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 25]"
+        [showFirstLastButtons]="true"
+      ></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

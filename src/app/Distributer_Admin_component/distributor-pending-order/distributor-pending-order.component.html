@@ -1,0 +1,70 @@
+<div class="table-container">
+
+  <h3 style="padding-left: 500px;">Pending order</h3>
+  <div class="filter-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search orders" />
+    </mat-form-field>
+    <!-- Button next to search -->
+    <button style="margin-left: 30px;" mat-raised-button color="primary" routerLink="../distributor-Confirm-Order">
+      Confirm Order
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Drug Name -->
+    <ng-container matColumnDef="drugName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Drug Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.orderDetails.drugName }}</td>
+    </ng-container>
+
+    <!-- Contact -->
+    <ng-container matColumnDef="contact">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact</th>
+      <td mat-cell *matCellDef="let element">{{ element.userDetails.contact }}</td>
+    </ng-container>
+
+    <!-- Shop Name -->
+    <ng-container matColumnDef="shopName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Shop Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.userDetails.shopName }}</td>
+    </ng-container>
+
+    <!-- Name -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.userDetails.name }}</td>
+    </ng-container>
+
+    <!-- Quantity -->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+      <td mat-cell *matCellDef="let element">{{ element.userDetails.quantity }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="paymentMode">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>PaymentMode</th>
+      <td mat-cell *matCellDef="let element">{{ element.userDetails.paymentMode }}</td>
+    </ng-container>
+
+    <!-- Actions -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="confirmOrder(element._id)">
+          Confirm Order
+        </button>
+        <button mat-raised-button color="warn" (click)="cancelOrder(element)">
+          Cancel
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Table Header & Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

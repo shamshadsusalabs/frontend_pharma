@@ -111,9 +111,10 @@ export class InvoiceComponent {
   applyAdvancedFilter(): void {
     let filteredData = this.dataSource.data;
 
-    if (this.patientName.trim()) {
+    if (this.patientName.trim()) {  // You can rename this variable to reflect the change
+      const filterValue = this.patientName.trim().toLowerCase();
       filteredData = filteredData.filter((item) =>
-        item.patientName.toLowerCase().includes(this.patientName.trim().toLowerCase())
+        item.ContactNumber.toString().includes(filterValue) // Convert the number to a string for comparison
       );
     }
 

@@ -4,6 +4,10 @@
     <mat-card class="bg-gray-300 p-4 mb-4">
       <div class="flex justify-between">
         <div>
+          <p>Contact Number: <span class="font-semibold">
+            <input matInput formControlName="ContactNumber" id="ContactNumber" (keydown)="moveFocus($event, 'patientName')" />
+          </span>
+        </p>
           <p>Patient: <span class="font-semibold">
               <input matInput formControlName="patientName" id="patientName" (keydown)="moveFocus($event, 'doctorName')" />
             </span>
@@ -14,17 +18,14 @@
             </span>
           </p>
 
-          <p>Aadhar Card Number: <span class="font-semibold">
-              <input matInput formControlName="AdharCardNumber" id="AdharCardNumber" (keydown)="moveFocus($event, 'ContactNumber')"
-               />
-            </span>
-          </p>
+
         </div>
         <div class="text-right">
-          <p>Contact Number: <span class="font-semibold">
-              <input matInput formControlName="ContactNumber" id="ContactNumber" (keydown)="moveFocus($event, 'date')" />
-            </span>
-          </p>
+          <p>Aadhar Card Number: <span class="font-semibold">
+            <input matInput formControlName="AdharCardNumber" id="AdharCardNumber" (keydown)="moveFocus($event, 'date')"
+             />
+          </span>
+        </p>
           <p>Date: <span class="font-semibold">
               <input matInput type="date"  formControlName="date" id="date" (keydown)="moveFocus($event, 'address')" />
             </span>

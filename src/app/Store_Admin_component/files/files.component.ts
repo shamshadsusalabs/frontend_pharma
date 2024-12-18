@@ -98,6 +98,10 @@ export class FilesComponent implements OnInit, AfterViewInit {
     }
   }
   applyDateFilter(): void {
+    // Log the current startDate and endDate values
+    console.log('Start Date:', this.startDate);
+    console.log('End Date:', this.endDate);
+
     // TypeScript type narrowing to confirm the variables are Date objects
     if (this.startDate && this.endDate) {
       const start = new Date(this.startDate);
@@ -107,26 +111,35 @@ export class FilesComponent implements OnInit, AfterViewInit {
       start.setHours(0, 0, 0, 0);
       end.setHours(23, 59, 59, 999);
 
+      // Log the normalized start and end date
+      console.log('Normalized Start Date:', start);
+      console.log('Normalized End Date:', end);
+
       this.dataSource.filterPredicate = (data: FileData) => {
         const fileDate = new Date(data.date);
+
         // Normalize fileDate to 00:00:00 for comparison
         fileDate.setHours(0, 0, 0, 0);
 
-      // Log each file's normalized date
+        // Log the normalized file date
+        console.log('Normalized File Date:', fileDate);
 
         // Return true or false based on date comparison
         const isInDateRange = fileDate >= start && fileDate <= end;
+
         // Log the result of date comparison
+        console.log('Is file in date range?', isInDateRange);
+
         return isInDateRange;
       };
     } else {
       this.dataSource.filterPredicate = () => true;
+      console.log('No date filter applied.');
     }
 
     // Refresh table data with the updated filter
     this.dataSource.filter = Math.random().toString();
-
-
+    console.log('Filter applied and table refreshed.');
   }
 
 

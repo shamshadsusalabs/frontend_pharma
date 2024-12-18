@@ -1,0 +1,48 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" class="sidenav" [opened]="isScreenLarge()">
+    <img src="/logo.webp" alt="Pharma Logo" class="logo" />
+    <mat-nav-list class="s">
+      <a mat-list-item class="nav-item" routerLink="main-content-narcotis">
+        <mat-icon class="nav-icon">home</mat-icon>
+        <span class="nav-text">Home</span>
+      </a>
+
+
+      <a mat-list-item class="nav-item" routerLink="all-sell-drug-narcotis">
+        <mat-icon class="nav-icon">medical_services</mat-icon>
+        <span class="nav-text">Sell All Drugs</span>
+      </a>
+
+      <a mat-list-item class="nav-item" routerLink="/settings">
+        <mat-icon class="nav-icon">settings</mat-icon>
+        <span class="nav-text">Settings</span>
+      </a>
+
+      <a mat-list-item class="nav-item" (click)="onLogout()">
+        <mat-icon class="nav-icon">logout</mat-icon>
+        <span class="nav-text">Logout</span>
+      </a>
+    </mat-nav-list>
+
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar class="upper-navbar">
+      <button mat-icon-button (click)="sidenav.toggle()" class="sidenav-toggle" *ngIf="isScreenSmall()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="toolbar-title">Dashboard Title</span>
+      <span class="spacer"></span>
+
+      <!-- <mat-icon class="notification-icon uppericons" (click)="openNotifications()">notifications</mat-icon>
+      <mat-icon class="profile-icon  uppericons" (click)="openProfile()">account_circle</mat-icon> -->
+
+      <!-- <button mat-button routerLink="/settings">Settings</button> -->
+      <button mat-button (click)="onLogout()">Logout</button>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

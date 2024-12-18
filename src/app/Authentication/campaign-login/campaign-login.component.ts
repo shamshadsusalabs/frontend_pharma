@@ -29,7 +29,7 @@ export class CampaignLoginComponent {
 
   constructor(
     private fb: FormBuilder,
-    private narcotisUserService:  CampaignUserService,  // Inject the service
+    private narcotisUserService:CampaignUserService,  // Inject the service
     private router: Router,
     private toastr: ToastrService // Inject ToastrService for success/error messages
   ) {
@@ -51,18 +51,12 @@ export class CampaignLoginComponent {
 
       this.narcotisUserService.login(loginData.email, loginData.password).subscribe(
         (response) => {
-          // Check if the account is approved
-          if (response.user && response.user.approved) {
-            // Save the token and user details to localStorage
-            localStorage.setItem('accessToken', response.token); // Save the token
-            localStorage.setItem('user', JSON.stringify(response.user)); // Save the user data
+          // Save the token and user details to localStorage
+          localStorage.setItem('accessToken', response.token); // Save the token
+          localStorage.setItem('user', JSON.stringify(response.user)); // Save the user data
 
-            // Redirect to the dashboard or home page
-            this.router.navigate(['/Narcotis-Admin']); // Adjust the route as needed
-          } else {
-            // If account is not approved, show error message
-            this.toastr.error('Your account is not approved. Please contact admin.', 'Account Not Approved');
-          }
+          // Redirect to the dashboard or home page
+          this.router.navigate(['/Campaign-Admin']); // Adjust the route as needed
         },
         (error) => {
           // Show error message if login fails
@@ -75,6 +69,7 @@ export class CampaignLoginComponent {
       this.toastr.error('Please enter valid credentials', 'Form Error');
     }
   }
+
 
 }
 

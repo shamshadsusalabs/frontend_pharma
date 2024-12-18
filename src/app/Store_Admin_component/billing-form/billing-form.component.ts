@@ -11,7 +11,9 @@ import { StoreService } from '../../_Service/store.service';
 import { ToastrService } from 'ngx-toastr';
 import { FileService } from '../../_Service/file.service';
 import { CommonModule } from '@angular/common';
-
+import { Patient, PatientService } from '../../_Service/patient.service';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-billing-form',
   standalone: true,
@@ -48,24 +50,52 @@ export class BillingFormComponent implements OnInit {
     private  storeService: StoreService,
     private toastr: ToastrService ,
     private fileService:FileService,
+    private patientService:PatientService,
     private cdr: ChangeDetectorRef// Toastr service
 
   ) {}
 
   ngOnInit(): void {
     this.billingForm = this.fb.group({
+      ContactNumber: ['',Validators.required],
       patientName: [''],
       doctorName: [''],
       AdharCardNumber: ['',Validators.required],
       date: [''],
       address: [''],
-      ContactNumber: ['',Validators.required],
+
       gst: [18], // Default GST is 18%
       discount: [0], // Default discount is 0%
       totalAmount: [],
       paymentMode: ['Cash'],/// Readonly total amount
       rows: this.fb.array([]), // Table rows
     });
+
+
+    this.billingForm.get('ContactNumber')?.valueChanges.pipe(
+      debounceTime(300), // Add a slight delay to avoid too many API calls
+      distinctUntilChanged(), // Only call API if value changes
+      switchMap((contactNumber: string) => {
+        if (contactNumber.length === 10) {
+          return this.getPatientData(contactNumber); // Call the new function
+        }
+        return new Observable(); // Return empty observable if length is not 10
+      })
+    ).subscribe((response: any) => {
+      console.log('Fetched patient data:', response);
+      if (response?.patient) {
+        this.billingForm.patchValue({
+          patientName: response.patient.patientName          ,
+          doctorName: response.patient.doctorName,
+          AdharCardNumber: response.patient.AdharCardNumber,
+          address: response.patient.address,
+          date: new Date().toISOString().split('T')[0]
+
+        });
+      }
+    });
+
+
 
     // Subscribe to the gst and discount fields to automatically trigger calculation
     this.billingForm.get('gst')?.valueChanges.subscribe(() => {
@@ -81,10 +111,13 @@ export class BillingFormComponent implements OnInit {
     this.calculateTotalAmount();
   }
 
+  getPatientData(contactNumber: string): Observable<{ patient: Patient }> {
+    return this.patientService.getPatientByContactNumber(contactNumber); // Call the service method to fetch patient data
+  }
+
   get rows(): FormArray {
     return this.billingForm.get('rows') as FormArray;
   }
-
 
 
  onDrugNameInput(event: any, i: number): void {
@@ -308,6 +341,40 @@ export class BillingFormComponent implements OnInit {
   onFieldChange(): void {
     this.calculateTotalAmount();
   }
+
+
+
+
+  onSubmitCustomer(): void {
+    // Manually extract only the required form fields
+    const formData: Patient = {
+      patientName: this.billingForm.value.patientName,
+      doctorName: this.billingForm.value.doctorName,
+      AdharCardNumber: this.billingForm.value.AdharCardNumber,
+      address: this.billingForm.value.address,
+      ContactNumber: this.billingForm.value.ContactNumber
+    };
+
+  // Log the form data to the console
+
+    // Call the createPatient service to save the data
+    this.patientService.createPatient(formData).subscribe(
+      (response) => {
+      // Display the success message from the backend
+        console.log(response);
+      },
+      (error) => {
+      // Display error message from the backend
+        console.error(error);
+      }
+    );
+  }
+
+
+
+
+
+
   onSubmit(): void {
     const formValues = this.billingForm.value;
 
@@ -347,9 +414,10 @@ export class BillingFormComponent implements OnInit {
         // Step 2: Call updateDrugStock service
         this.storeService.updateDrugStock(stockUpdates).subscribe(
           (updateResponse) => {
+            this.onSubmitCustomer()
             this.FileSaver();
             this.toastr.success('Stock updated successfully!', 'Success'); // Success message
-              this.resetForm(); // Reset form after success
+              //  this.resetForm(); // Reset form after success
           },
           (updateError) => {
             this.toastr.error('Error updating stock.', 'Something went wrong'); // Error message

@@ -89,19 +89,21 @@ openNotifications() {
   }
   @HostListener('window:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    const key = event.key.toLowerCase();
+    // Check if event.key is defined
+    const key = event.key ? event.key.toLowerCase() : '';
 
-    // Ignore standalone Control key press
-    if (key === 'control') {
-      return;
-    }
-
-    // Log the key press
-    console.log(`Key pressed: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
-
-    // Handle Ctrl + Key combinations
+    // Ensure that the key press is only handled if Ctrl is pressed
     if (event.ctrlKey) {
+      // Log the event to inspect the key and ctrlKey state only when Ctrl is pressed
+      console.log(`Key: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
+
+      // Ignore standalone Control key press
+      if (key === 'control') {
+        return; // Exit early if Control is pressed alone
+      }
+
       event.preventDefault(); // Prevent default browser behavior
+
       switch (key) {
         case 'd': // Ctrl + D
           console.log('Navigating to: main-content');
@@ -115,8 +117,8 @@ openNotifications() {
           console.log('Navigating to: billing-Form');
           this.router.navigate(['/Store-Admin-dashboard/billing-Form']);
           break;
-          case 'l': // Ctrl + B
-          console.log('Navigating to: billing-Form');
+        case 'l': // Ctrl + L
+          console.log('Navigating to: low-stock');
           this.router.navigate(['/Store-Admin-dashboard/low-stock']);
           break;
         case 'i': // Ctrl + I
@@ -140,25 +142,13 @@ openNotifications() {
           break;
       }
     } else {
-      // Handle standalone keys (e.g., F1, F2 without Ctrl)
-      switch (key) {
-        case 'f1': // F1 (without Ctrl)
-          console.log('Navigating to: files');
-          this.router.navigate(['/Store-Admin-dashboard/files']);
-          break;
-        case 'f2': // F2 (without Ctrl)
-          console.log('Navigating to: purchase-files');
-          this.router.navigate(['/Store-Admin-dashboard/purchase-files']);
-          break;
-        case 'm': // m key without Ctrl
-          console.log('Handled key: m without Ctrl');
-          break;
-        default:
-          console.log(`Unhandled key: ${key}`);
-          break;
-      }
+      // Ignore all key presses when Ctrl is not pressed, without logging
     }
   }
+
+
+
+
 
 
 

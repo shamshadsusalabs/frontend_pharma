@@ -71,6 +71,27 @@ export const routes: Routes = [
     ]
   },
 
+
+  {
+    path: 'Campaign-Admin',
+    canActivate: [authGuard] ,
+    loadComponent: () => import('./_Campaign_Admin/campaign-dashboard/campaign-dashboard.component').then(c => c.CampaignDashboardComponent),
+    children: [
+      {
+        path: '',
+        redirectTo: 'main-content-Campaign',
+        pathMatch: 'full'
+      },
+      {
+        path: 'main-content-Campaign',
+        loadComponent: () => import('./_Campaign_Admin/main-component/main-component.component').then(c => c.MainComponentComponent)
+      },
+
+
+    ]
+  },
+
+
   {
     path: '',
     loadComponent: () => import('./Authentication/login/login.component').then(c => c.LoginComponent)

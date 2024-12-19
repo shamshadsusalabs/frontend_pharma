@@ -1,0 +1,64 @@
+<div *ngIf="feedbackMessage">{{ feedbackMessage }}</div>
+
+<mat-form-field  appearance="outline">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Filter by user info or images">
+</mat-form-field>
+
+<mat-table [dataSource]="dataSource" matSort>
+
+  <!-- User Name Column -->
+  <ng-container matColumnDef="userName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>User Name</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.userName }}</mat-cell>
+  </ng-container>
+
+  <!-- User Contact Number Column -->
+  <ng-container matColumnDef="userContactNumber">
+    <mat-header-cell *matHeaderCellDef>User Contact Number</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.userContactNumber }}</mat-cell>
+  </ng-container>
+
+  <!-- Image Columns (Four images) -->
+  <ng-container matColumnDef="image1">
+    <mat-header-cell *matHeaderCellDef>Image 1</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img *ngIf="element.images[0].imageUrl" [src]="element.images[0].imageUrl" alt="Image 1" class="advertisement-image" />
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="image2">
+    <mat-header-cell *matHeaderCellDef>Image 2</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img *ngIf="element.images[1].imageUrl" [src]="element.images[1].imageUrl" alt="Image 2" class="advertisement-image" />
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="image3">
+    <mat-header-cell *matHeaderCellDef>Image 3</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img *ngIf="element.images[2].imageUrl" [src]="element.images[2].imageUrl" alt="Image 3" class="advertisement-image" />
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="image4">
+    <mat-header-cell *matHeaderCellDef>Image 4</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <img *ngIf="element.images[3].imageUrl" [src]="element.images[3].imageUrl" alt="Image 4" class="advertisement-image" />
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <button mat-button (click)="logDetails(element)">Confirm</button>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Table Header and Row Definitions -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>

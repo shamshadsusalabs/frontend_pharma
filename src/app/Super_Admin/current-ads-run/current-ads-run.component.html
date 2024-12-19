@@ -1,0 +1,12 @@
+<div *ngFor="let ad of advertisements" class="ad-card">
+  <h2>Current Run: {{ ad.userName }}</h2>
+  <p>Contact Number: {{ ad.userContactNumber }}</p>
+  <p>Ad Count: {{ ad.count }}</p>
+
+  <!-- Wrap images inside a container to display them side by side -->
+  <div class="images-container">
+    <div *ngFor="let image of ad.images">
+      <img [src]="image.imageUrl" alt="Advertisement Image" />
+    </div>
+  </div>
+</div>

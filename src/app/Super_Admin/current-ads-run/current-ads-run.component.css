@@ -1,0 +1,52 @@
+/* Container for all advertisement cards */
+.ad-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect on ad cards */
+.ad-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Heading style */
+.ad-card h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Paragraph styling for contact number and ad count */
+.ad-card p {
+  font-size: 1rem;
+  color: #555;
+  margin: 5px 0;
+}
+
+/* Container for images in each ad */
+.ad-card .images-container {
+  display: flex;
+  justify-content: flex-start;  /* Align items to the left */
+  gap: 10px;  /* Space between images */
+  flex-wrap: nowrap;  /* Prevent images from wrapping to the next line */
+}
+
+/* Styling for each image */
+.ad-card img {
+  width: 23%;  /* Set each image to 23% of the container width */
+  height: auto;  /* Maintain the aspect ratio */
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect on images */
+.ad-card img:hover {
+  transform: scale(1.05);
+}
+

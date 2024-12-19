@@ -44,6 +44,15 @@ export const routes: Routes = [
         path: 'campaign-users',
         loadComponent: () => import('./Super_Admin/campaign-users/campaign-users.component').then(c => c.CampaignUsersComponent)
       },
+      {
+        path: 'ads-request',
+        loadComponent: () => import('./Super_Admin/ads-request/ads-request.component').then(c => c.AdsRequestComponent)
+      },
+      {
+        path: 'current-ads',
+        loadComponent: () => import('./Super_Admin/current-ads-run/current-ads-run.component').then(c => c.CurrentAdsRunComponent)
+      },
+
 
 
     ]
@@ -85,6 +94,14 @@ export const routes: Routes = [
       {
         path: 'main-content-Campaign',
         loadComponent: () => import('./_Campaign_Admin/main-component/main-component.component').then(c => c.MainComponentComponent)
+      },
+      {
+        path: 'request-Ads-Campaign',
+        loadComponent: () => import('./_Campaign_Admin/request-addvertisment/request-addvertisment.component').then(c => c.RequestAddvertismentComponent)
+      },
+      {
+        path: 'Ads-count-Campaign',
+        loadComponent: () => import('./_Campaign_Admin/ads-count/ads-count.component').then(c => c.AdsCountComponent)
       },
 
 

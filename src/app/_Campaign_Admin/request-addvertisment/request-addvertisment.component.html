@@ -1,1 +1,42 @@
-<p>request-addvertisment works!</p>
+<div class="container">
+  <h2 class="heading">Request Advertisement</h2>
+  <div class="image-container">
+    <img src="ads.jpg" alt="Advertisement" class="ad-image" />
+    <p class="image-caption">Your Advertisement Goes Here!</p>
+  </div>
+
+<!-- Form Section -->
+<!-- Form Section -->
+
+<div *ngIf="feedbackMessage" class="feedback-message">
+  {{ feedbackMessage }}
+</div>
+<form class="ad-form" (ngSubmit)="onSubmit()">
+  <h3 class="form-heading">Upload Advertisement Images</h3>
+
+  <!-- Image 1 -->
+  <div class="form-group">
+    <label for="image1" class="form-label">Upload Image 1: dimension(350px 150px)</label>
+    <input type="file" id="image1" name="image1" class="form-input" (change)="onFileSelected($event, 0)" accept="image/*" />
+  </div>
+
+  <!-- Image 2 -->
+  <div class="form-group">
+    <label for="image2" class="form-label">Upload Image 2: dimension(350px 150px)</label>
+    <input type="file" id="image2" name="image2" class="form-input" (change)="onFileSelected($event, 1)" accept="image/*" />
+  </div>
+
+  <!-- Image 3 -->
+  <div class="form-group">
+    <label for="image3" class="form-label">Upload Image 3:  dimension(500px 200px)</label>
+    <input type="file" id="image3" name="image3" class="form-input" (change)="onFileSelected($event, 2)" accept="image/*" />
+  </div>
+
+  <!-- Image 4 -->
+  <div class="form-group">
+    <label for="image4" class="form-label">Upload Image 4:  dimension(500px 200px)</label>
+    <input type="file" id="image4" name="image4" class="form-input" (change)="onFileSelected($event, 3)" accept="image/*" />
+  </div>
+
+  <button type="submit" class="submit-button">Submit</button>
+</form>

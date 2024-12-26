@@ -38,7 +38,8 @@ export class DistributorSetShopanddiscountComponent {
       discount: [0, [Validators.required, Validators.min(0)]],
       deliveryType1: ['', Validators.required],
       deliveryTime: [0, [Validators.required, Validators.min(0)]],
-      address: ['', Validators.required]
+      address: ['', Validators.required],
+      quantity:['',Validators.required]
     });
   }
 

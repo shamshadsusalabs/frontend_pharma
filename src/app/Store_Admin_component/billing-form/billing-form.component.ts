@@ -9,7 +9,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { StoreBillingService } from '../../_Service/store-billing.service';
 import { StoreService } from '../../_Service/store.service';
 import { ToastrService } from 'ngx-toastr';
-import { FileService } from '../../_Service/file.service';
+import { Image, FileService } from '../../_Service/file.service';
 import { CommonModule } from '@angular/common';
 import { Patient, PatientService } from '../../_Service/patient.service';
 import { Observable } from 'rxjs';
@@ -40,6 +40,7 @@ export class BillingFormComponent implements OnInit {
     'mrp',
     'amount',
   ];
+  images: Image[] = [];
   dataSource!: MatTableDataSource<any>;
   filteredDrugs: any[] = [];
   filteredDrugsCode: any[] = [];
@@ -56,6 +57,7 @@ export class BillingFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+this.loadImages();
     this.billingForm = this.fb.group({
       ContactNumber: ['',Validators.required],
       patientName: [''],
@@ -114,6 +116,288 @@ export class BillingFormComponent implements OnInit {
   getPatientData(contactNumber: string): Observable<{ patient: Patient }> {
     return this.patientService.getPatientByContactNumber(contactNumber); // Call the service method to fetch patient data
   }
+
+
+  loadImages(): void {
+    this.fileService.getImages().subscribe(
+      (data) => {
+        this.images = data;
+        console.log(this.images); // Assign the fetched data to the images array
+      },
+      (error) => {
+        console.error('Error fetching images:', error); // Handle error
+      }
+    );
+  }
+
+  showLeftImage: boolean = false;
+  file(){
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+
+const licenseNumber = userData.licenseNumber;
+const gstNumber = userData.gstNumber;
+
+
+const includeImages = confirm("Do you want to include the ads in the invoice?");
+
+// If the user confirms, set this.showLeftImage to true
+this.showLeftImage = includeImages;
+
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Invoice Clone</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f5f5f5;
+            }
+
+            .header {
+border-bottom: 2px solid red;
+padding-bottom: 10px;
+}
+
+.header-container {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.left-image img,
+.right-image img {
+width: 300px;  /* Fixed width */
+height: 150px; /* Fixed height */
+object-fit: cover; /* Ensures the image fills the area without distortion */
+}
+
+
+
+
+.center-content {
+text-align: center;
+flex: 1; /* Center content takes remaining space */
+}
+
+            .invoice-container {
+                max-width: 900px;
+                margin: 20px auto;
+                border: 2px solid red;
+                background-color: #fff;
+                padding: 20px;
+            }
+            .header {
+                text-align: center;
+                border-bottom: 2px solid red;
+                padding-bottom: 10px;
+            }
+            .header h1 {
+                font-size: 20px;
+                margin: 0;
+            }
+            .header p {
+                margin: 5px 0;
+                font-size: 14px;
+                font-weight: bold;
+            }
+            .sub-header {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+            .sub-header div {
+                width: 48%;
+            }
+            .details {
+                margin-top: 20px;
+            }
+            .details table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .details th,
+            .details td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: center;
+                font-size: 12px;
+            }
+            .details th {
+                background-color: #f0f0f0;
+            }
+            .totals {
+                margin-top: 20px;
+                text-align: right;
+            }
+            .totals table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .totals th,
+            .totals td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: right;
+                font-size: 12px;
+            }
+            .totals th {
+                background-color: #f0f0f0;
+            }
+            .totals .highlight {
+                font-weight: bold;
+                background-color: #e0e0e0;
+            }
+            .footer {
+                margin-top: 20px;
+                font-size: 12px;
+                text-align: left;
+                line-height: 1.6;
+            }
+            .footer p {
+                margin: 5px 0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="invoice-container">
+          <div class="header">
+<div class="header-container">
+
+    <div class="left-image" style="display: ${includeImages ? 'block' : 'none'};">
+                    <img src="${this.images[0]?.imageUrl}" alt="Left Logo" />
+                </div>
+    <div class="center-content">
+        <h1>TAX INVOICE</h1>
+        <p><strong>Shop Name:</strong> ${this.billingForm.value.shopName}</p>
+        <p><strong>Address:</strong> ${this.billingForm.value.address }</p>
+    </div>
+    <div class="right-image" style="display: ${includeImages ? 'block' : 'none'};">
+                    <img src="${this.images[1]?.imageUrl}" alt="Right Logo" />
+                </div>
+</div>
+</div>
+
+
+           <div class="sub-header" style="display: flex; justify-content: space-between; align-items: center;">
+<div>
+    <p><strong>GSTIN:</strong> ${gstNumber}</p>
+    <p><strong>Licence No:</strong> ${licenseNumber}</p>
+    <p><strong>Doctor Name:</strong> ${this.billingForm.value.doctorName}</p>
+</div>
+
+<!-- Image in the middle -->
+<div style="flex: 0 0 auto; display: ${includeImages ? 'block' : 'none'};">
+                <img src="${this.images[2]?.imageUrl}" alt="Logo" style="width: 500px; height: 200px; object-fit: cover;" />
+            </div>
+
+<div style="text-align: right;">
+    <p><strong>Invoice No:</strong> GMA-14</p>
+    <p><strong>Date:</strong> ${this.billingForm.value.date}</p>
+    <p><strong>Phone:</strong> ${this.billingForm.value.ContactNumber}</p>
+    <p><strong>Patient Name:</strong> ${this.billingForm.value.patientName}</p>
+</div>
+</div>
+
+
+            <div class="details">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sr.</th>
+                            <th>Drug Name</th>
+                            <th>Drug Code</th>
+                            <th>Strip</th>
+                            <th>Quantity</th>
+                            <th>MRP</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                  <tbody>
+    ${this.billingForm.value.rows.map((item: { drugName: any; drugCode: any; strip: any; quantity: any; mrp: any; amount: any; }, index: number) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${item.drugName}</td>
+            <td>${item.drugCode}</td>
+            <td>${item.strip}</td>
+            <td>${item.quantity}</td>
+            <td>${item.mrp}</td>
+            <td>${item.amount}</td>
+        </tr>
+    `).join('')}
+</tbody>
+
+                </table>
+            </div>
+
+            <div class="totals">
+                <table>
+                    <tr>
+                        <th>PaymentMode</th>
+                        <td>${this.billingForm.value.paymentMode}</td>
+                    </tr>
+                    <tr>
+                        <th>Total Amount</th>
+                        <td>${this.billingForm.value.totalAmount}</td>
+                    </tr>
+                    <tr>
+                        <th>Discount</th>
+                        <td>${this.billingForm.value.discount}%</td>
+                    </tr>
+                    <tr class="highlight">
+                        <th>Net Amount</th>
+                        <td>${this.billingForm.value.totalAmount - (this.billingForm.value.totalAmount * this.billingForm.value.discount / 100)}</td>
+                    </tr>
+                </table>
+            </div>
+
+          <div class="footer" style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px; font-size: 12px; line-height: 1.6;">
+<div class="footer-left" style="text-align: left;">
+    <p><strong>GST Applied:</strong> ${this.billingForm.value.gst}%</p>
+    <p>Thank you for your business!</p>
+    <p>Invoice generated on: ${new Date().toLocaleDateString()}</p>
+    <p><strong>Checked By</strong></p>
+    <p><strong>Packed By</strong></p>
+</div>
+ <div class="footer-right" style="display: ${includeImages ? 'block' : 'none'};">
+                <img src="${this.images[3]?.imageUrl}" alt="Logo" style="width: 500px; height: 200px; object-fit: cover;" />
+            </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    const printWindow = window.open('', '_blank', 'width=900,height=900');
+
+    // Check if printWindow is not null
+    if (printWindow) {
+        // Write the HTML content to the new window
+        printWindow.document.open();
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+
+        // Wait for the content to load, then trigger print
+        printWindow.onload = () => {
+            printWindow.print();
+            printWindow.close();
+        };
+    } else {
+        console.error('Failed to open print window. It may have been blocked by the browser.');
+    }
+
+
+
+};
 
   get rows(): FormArray {
     return this.billingForm.get('rows') as FormArray;
@@ -409,11 +693,13 @@ export class BillingFormComponent implements OnInit {
     // Step 1: Call createBilling service
     this.storeBillingService.createBilling(formValues).subscribe(
       (billingResponse) => {
+        this.file()
         this.toastr.success('Billing created successfully!', 'Success'); // Success message
 
         // Step 2: Call updateDrugStock service
         this.storeService.updateDrugStock(stockUpdates).subscribe(
           (updateResponse) => {
+
             this.onSubmitCustomer()
             this.FileSaver();
             this.toastr.success('Stock updated successfully!', 'Success'); // Success message
@@ -561,4 +847,7 @@ export class BillingFormComponent implements OnInit {
     });
   }
 
-}
+
+
+  }
+

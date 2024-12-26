@@ -29,6 +29,7 @@ export class DistributorDiscountComponent {
   displayedColumns: string[] = [
     'shopName',
     'drugName',
+    'quantity',
     'discount',
     'deliveryType1',
     'deliveryTime',

@@ -89,18 +89,18 @@ export class DistributerDashbordComponent {
     }
     @HostListener('window:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
-      const key = event.key.toLowerCase();
+      const key = event.key ? event.key.toLowerCase() : '';
 
-      // Ignore standalone Control key press
-      if (key === 'control') {
-        return;
-      }
-
-      // Log the key press
-      console.log(`Key pressed: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
-
-      // Handle Ctrl + Key combinations
+      // Ensure that the key press is only handled if Ctrl is pressed
       if (event.ctrlKey) {
+        // Log the event to inspect the key and ctrlKey state only when Ctrl is pressed
+        console.log(`Key: ${key}, Ctrl key pressed: ${event.ctrlKey}`);
+
+        // Ignore standalone Control key press
+        if (key === 'control') {
+          return; // Exit early if Control is pressed alone
+        }
+
         event.preventDefault(); // Prevent default browser behavior
         switch (key) {
           case 'm': // Ctrl + D

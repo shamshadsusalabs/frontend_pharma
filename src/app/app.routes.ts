@@ -204,6 +204,18 @@ export const routes: Routes = [
         path: 'setting',
         loadComponent: () => import('./Store_Admin_component/setting/setting.component').then(c => c.SettingComponent)
       },
+      {
+        path: 'Expiry-Pending',
+        loadComponent: () => import('./Store_Admin_component/expiryexcahnge-pending/expiryexcahnge-pending.component').then(c => c.ExpiryexcahngePendingComponent)
+      },
+      {
+        path: 'Expiry-Rejected',
+        loadComponent: () => import('./Store_Admin_component/expiryexcahnge-rejected/expiryexcahnge-rejected.component').then(c => c.ExpiryexcahngeRejectedComponent)
+      },
+      {
+        path: 'Expiry-Accepted',
+        loadComponent: () => import('./Store_Admin_component/expiryexcahnge-confirm/expiryexcahnge-confirm.component').then(c => c.ExpiryexcahngeConfirmComponent)
+      },
 
 
 
@@ -288,6 +300,18 @@ export const routes: Routes = [
       {
         path: 'setting-distributor',
         loadComponent: () => import('./Distributer_Admin_component/setting-distributor/setting-distributor.component').then(c => c.SettingDistributorComponent)
+      },
+      {
+        path: 'Expiry-Exchange',
+        loadComponent: () => import('./Distributer_Admin_component/expirycancle-drugs/expirycancle-drugs.component').then(c => c.ExpirycancleDrugsComponent)
+      },
+      {
+        path: 'Expiry-accepted',
+        loadComponent: () => import('./Distributer_Admin_component/expirycancle-drugs-accepted/expirycancle-drugs-accepted.component').then(c => c.ExpirycancleDrugsAcceptedComponent)
+      },
+      {
+        path: 'Expiry-rejected',
+        loadComponent: () => import('./Distributer_Admin_component/expirycancle-drugs-rejected/expirycancle-drugs-rejected.component').then(c => c.ExpirycancleDrugsRejectedComponent)
       },
 
 

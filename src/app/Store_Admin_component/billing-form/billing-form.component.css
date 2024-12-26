@@ -299,3 +299,32 @@ mat-header-row:last-child, mat-row:last-child {
 }
 
 
+
+@media print {
+  body {
+      margin: 0;
+      padding: 0;
+      font-size: 12px; /* Reduce font size if needed */
+  }
+  .header-container, .footer {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+  }
+  img {
+      max-width: 100%; /* Ensure images fit within the page */
+      height: auto;
+  }
+  .invoice-container {
+      width: 100%;
+      max-width: 800px; /* Adjust width for printing */
+      margin: auto;
+      border: none; /* Remove borders if not needed */
+  }
+  .details table, .totals table {
+      font-size: 10px; /* Reduce table font size */
+  }
+  tr, td, th {
+      page-break-inside: avoid; /* Avoid breaking rows across pages */
+  }
+}

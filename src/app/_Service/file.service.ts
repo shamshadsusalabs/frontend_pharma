@@ -56,6 +56,14 @@ export interface PurchaseFile {
   fileName: string;
   date: string; // You can adjust this type based on the date format in your backend
 }
+
+
+export interface Image {
+  imageUrl: string;
+  position: number;
+  _id: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,6 +72,10 @@ export class FileService {
   private apiUrl = 'http://localhost:3000/api/v1/File';  // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
+
+  getImages(): Observable<Image[]> {
+    return this.http.get<Image[]>(`${this.apiUrl}/images`);
+  }
 
   // Method to create a billing entry, using the updated BillingData interface
   createBilling(formData: BillingData): Observable<BillingData> {

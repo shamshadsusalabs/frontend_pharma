@@ -12,6 +12,7 @@ export interface Discount {
   address: string;
   profile: string;
   userId: string;
+  quantity:number
 }
 // src/app/models/distributor.interface.ts
 
